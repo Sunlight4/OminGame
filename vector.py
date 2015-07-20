@@ -39,3 +39,6 @@ class Vector(object):
         return "<"+str(self.x)+","+str(self.y)+">"
     def dist(self, other):
         return math.sqrt((self.x-other.x)*(self.x-other.x)+(self.y-other.y)*(self.y-other.y))
+    def _direction(self):
+        return math.atan2(float(self.y),float(self.x))
+    direction=property(_direction)

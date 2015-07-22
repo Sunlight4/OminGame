@@ -18,6 +18,7 @@ def runlevel(screen, path):
         screen.fill([0,0,0])
         screen.blit(canvas, [0,0])
         pygame.display.flip()
+    print "Exited Level"
 path="testlevel/map.txt"
 screen=pygame.display.set_mode([640, 480])
 runlevel(screen, path)

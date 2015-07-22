@@ -26,8 +26,10 @@ class Object(pygame.sprite.Sprite):
         self.forces=[]
         self.rect.left=self.pos.x-(self.rect.width/2.0)
         self.rect.top=self.pos.y-(self.rect.height/2.0)
+    def addForce(self, v):
+        self.forces.append(v)
 class Wall(Object):
-    def __init__(self, bouncy=0, rotation=0, **kw):
+    def __init__(self, bouncy=1, rotation=0, **kw):
         "Create a wall with specified bounciness, rotated by the given amount of degrees"
         super(Wall, self).__init__(**kw)
         self.bouncy=bouncy
@@ -41,11 +43,20 @@ class Wall(Object):
             #get normal force
             angle=math.degrees((spr.pos-self.pos).direction)
             normal=self.normal((angle-self.rotation) % 360)
+            angle=math.degrees((spr.pos-self.pos).direction)
+            normal=self.normal((angle-self.rotation) % 360)
+            a=(-normal).angle(spr.velocity)
+            mN = math.cos(a) * spr.velocity.magnitude * self.bouncy * spr.mass
+            spr.addForce(normal*mN)
+            print mN
             #move the object so it isn't penetrating me
             while pygame.sprite.collide_mask(self, spr):
                 spr.pos+=normal
                 spr.rect.left=spr.pos.x-(spr.rect.width/2.0)
                 spr.rect.top=spr.pos.y-(spr.rect.height/2.0)
+            spr.pos+=(normal/2.0)
+            spr.rect.left=spr.pos.x-(spr.rect.width/2.0)
+            spr.rect.top=spr.pos.y-(spr.rect.height/2.0)
             #TODO:fix this
             
     def normal(self, angle):
@@ -71,14 +82,23 @@ class SquareWall(CircleWall):
         else:
             a=0
         return super(SquareWall, self).normal(a)
+class RightTriangleWall(CircleWall):
+    def normal(self, angle):
+        if a<135:a=45
+        if 135<=a<=225:
+            a=180
+        if 225<=a<=315:
+            a=270
+        else:
+            a=45
+        return super(RightTriangleWall, self).normal(a)
 class Gravity(pygame.sprite.Sprite):
     def __init__(self, strength=None):
         super(Gravity, self).__init__()
         self.strength=strength
     def update(self, args):
         for spr in args["updated"].sprites():
-            spr.forces.append(self.strength*spr.mass)
-
+            spr.addForce(self.strength*spr.mass)
             
         
         

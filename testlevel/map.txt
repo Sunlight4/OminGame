@@ -1,4 +1,4 @@
 //very simple
-Object image="testlevel/ball.png" mass=25##rendered updated
-Wall image="testlevel/wall.png" mass=50 fixed=True y=100##rendered updated
+Object image="testlevel/Ball.png" mass=25 x=2##rendered updated
+CircleWall image="testlevel/images.png" mass=50 fixed=True y=100##rendered updated
 Gravity strength=Vector(0,1)##forces

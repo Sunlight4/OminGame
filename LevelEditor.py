@@ -66,6 +66,8 @@ while run:
                         f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                         f.write("\n")
                 main.loadlevel(screen, levelname)
+            if event.key==pygame.K_TAB:
+                selected=classes[choicebox(classes.keys())]
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])
     pygame.display.flip()

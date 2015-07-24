@@ -1,4 +1,4 @@
-import pygame, main, easygui
+import pygame, main
 from utils import *
 from objects import *
 from vector import Vector
@@ -6,7 +6,6 @@ pygame.init()
 
 screen = pygame.display.set_mode([640,480])
 
-enterbox(screen,"hi")
 
 pygame.display.set_caption("Omin: Level Editor")
 
@@ -21,6 +20,7 @@ selected=Object
 image="Wall.png"
 run=1
 levelname=None
+images=[None, None, None, None, None, None, None, None, None, None]
 while run:
     canvas.fill([0,0,0])
     for o in objects:
@@ -30,7 +30,6 @@ while run:
         img=pygame.image.load(d["image"])
         canvas.blit(img, [xp, yp])
     events=pygame.event.get()
-    
     for event in events:
         if event.type==pygame.QUIT:
             run=0
@@ -45,8 +44,8 @@ while run:
                 objects.append([selected, diction, ["rendered", "updated"]])
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_s:
-                levelname=enterbox(screen,"Enter level path to save as:")
-                f=open(levelname, "w+")
+                levelname=enterbox(screen, "Enter level path to save as:")
+                f=open(levelname, "w")
                 for o in objects:
                     d=""
                     for k in o[1].keys():
@@ -54,9 +53,10 @@ while run:
                         d=d+k+"="+str(v)+" "
                     f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                     f.write("\n")
+                f.close()
             if event.key==pygame.K_p:
                 if levelname==None:
-                    levelname=easygui.enterbox("Enter level path to save as:")
+                    levelname=enterbox(screen, "Enter level path to save as:")
                     f=open(levelname, "w")
                     for o in objects:
                         d=""
@@ -65,9 +65,36 @@ while run:
                             d=d+k+"="+str(v)+" "
                         f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                         f.write("\n")
+                    f.close()
                 main.loadlevel(screen, levelname)
             if event.key==pygame.K_TAB:
                 selected=classes[choicebox(classes.keys())]
+            if event.key==pygame.K_1:
+                if images[1]==None:
+                    images[1]=enterbox(screen, "Enter image path to load:")
+                else:
+                    image=images[1]
+            if event.key==pygame.K_2:
+                if images[2]==None:
+                    images[2]=enterbox(screen, "Enter image path to load:")
+                else:
+                    image=images[2]
+            if event.key==pygame.K_3:
+                if images[3]==None:
+                    images[3]=enterbox(screen, "Enter image path to load:")
+                else:
+                    image=images[3]
+            if event.key==pygame.K_4:
+                if images[4]==None:
+                    images[4]=enterbox(screen, "Enter image path to load:")
+                else:
+                    image=images[4]
+            if event.key==pygame.K_5:
+                if images[5]==None:
+                    images[5]=enterbox(screen, "Enter image path to load:")
+                else:
+                    image=images[5]
+            
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])
     pygame.display.flip()

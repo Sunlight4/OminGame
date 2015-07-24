@@ -52,6 +52,7 @@ def titlescreen(screen,path):
         runlevel(screen,path)
 pygame.init()
 path="testlevel/map.txt"
+
 screen=pygame.display.set_mode([640, 480])
 pygame.display.set_caption("Omin")
 titlescreen(screen,path)

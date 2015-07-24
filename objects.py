@@ -1,6 +1,6 @@
 import pygame, math
 from vector import Vector
-classes={"Object", "Wall", "CircleWall", "SquareWall"}
+
 class Object(pygame.sprite.Sprite):
     props={"x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool"}
     defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":False}
@@ -94,6 +94,8 @@ class RightTriangleWall(CircleWall):
             a=45
         return super(RightTriangleWall, self).normal(a)
 class Gravity(pygame.sprite.Sprite):
+    props={"Strength":"Vector"}
+    defs={"Strength":Vector(0, 1)}
     def __init__(self, strength=None):
         super(Gravity, self).__init__()
         self.strength=strength

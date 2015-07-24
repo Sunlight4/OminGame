@@ -9,7 +9,7 @@ screen = pygame.display.set_mode([640,480])
 
 pygame.display.set_caption("Omin: Level Editor")
 
-
+classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall, "Gravity":Gravity}
 main.titlescreen(screen)
 canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()
@@ -24,11 +24,13 @@ images=[None, None, None, None, None, None, None, None, None, None]
 while run:
     canvas.fill([0,0,0])
     for o in objects:
-        d=o[1]
-        xp=d["x"]
-        yp=d["y"]
-        img=pygame.image.load(d["image"])
-        canvas.blit(img, [xp, yp])
+        try:
+            d=o[1]
+            xp=d["x"]
+            yp=d["y"]
+            img=pygame.image.load(d["image"])
+            canvas.blit(img, [xp, yp])
+        except:pass
     events=pygame.event.get()
     for event in events:
         if event.type==pygame.QUIT:
@@ -50,7 +52,7 @@ while run:
                     d=""
                     for k in o[1].keys():
                         v=o[1][k]
-                        d=d+k+"="+str(v)+" "
+                        d=d+k+"="+repr(v)+" "
                     f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                     f.write("\n")
                 f.close()
@@ -62,11 +64,11 @@ while run:
                         d=""
                         for k in o[1].keys():
                             v=o[1][k]
-                            d=d+k+"="+str(v)+" "
+                            d=d+k+"="+repr(v)+" "
                         f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                         f.write("\n")
                     f.close()
-                main.loadlevel(screen, levelname)
+                main.runlevel(screen, levelname)
             if event.key==pygame.K_TAB:
                 selected=classes[choicebox(screen, classes.keys(), "Select a type of object:")]
             if event.key==pygame.K_1:
@@ -100,17 +102,22 @@ while run:
                 lines=f.readlines()
                 objects=[]
                 for line in lines:
+                    print line
+                    if line.startswith("//"):continue
                     code, groups=line.split("##")
                     groups=groups.split(" ")
+                    code=code.split(" ")
                     kind=classes[code[0]]
-                    code=code[1:].split(" ")
+                    code=code[1:]
                     d=kind.defs
                     for item in code:
-                        k, v = item.split(" ")
-                        d[k] = eval(v)
+                        print item
+                        try:
+                            k, v = item.split("=")
+                            try:d[k] = eval(v)
+                            except:d[k] = v
+                        except:pass
                     objects.append([kind, d, groups])
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])
     pygame.display.flip()
-    print objects
-                

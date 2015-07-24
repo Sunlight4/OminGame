@@ -109,7 +109,9 @@ def msgbox(screen,message):
     okbutton = Button(text('OK',50,[200,0,0]),[320,240],True)
     txt = text(text=message,color=[200,0,0],size=64)
     run = True
-    
+    canvas=pygame.Surface(screen.get_size())
+    canvas=canvas.convert()
+    canvas.fill([0,0,0])
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -119,9 +121,11 @@ def msgbox(screen,message):
                 if okbutton.hover():
                     run = False
 
+        canvas.fill([0,0,0])
+        okbutton.render(canvas)
+        blitcenter(txt,[320,128],canvas)
         screen.fill([0,0,0])
-        okbutton.render()
-        blitcenter(txt,[320,128],screen)
+        screen.blit(canvas, [0,0])
         pygame.display.flip()
 
 
@@ -131,7 +135,9 @@ def enterbox(screen,title):
     title = text(text=title,color=[200,0,0],size=50)
     txt = ''
     run = True
-
+    canvas=pygame.Surface(screen.get_size())
+    canvas=canvas.convert()
+    canvas.fill([0,0,0])
     chars = ['a','b','c','d','e','f','g','h','i',
              'j','k','l','m','n','o','p','q','r',
              's','t','u','v','w','x','y','z',
@@ -160,16 +166,20 @@ def enterbox(screen,title):
                         else:
                             txt+=chr(key)
 
+        canvas.fill([0,0,0])
+        okbutton.render(canvas)
+        blitcenter(title,[320,128],canvas)
+        blitcenter(text(txt,50,[255,255,255]),[320,240],canvas)
         screen.fill([0,0,0])
-        okbutton.render(screen)
-        blitcenter(title,[320,128],screen)
-        blitcenter(text(txt,50,[255,255,255]),[320,240],screen)
+        screen.blit(canvas, [0,0])
         pygame.display.flip()
     return txt
 
 def choicebox(screen,_choices,message):
     choices = []
-
+    canvas=pygame.Surface(screen.get_size())
+    canvas=canvas.convert()
+    canvas.fill([0,0,0])
     for choice in _choices:
         choices.append(text(choice,50,[255,0,0]))
 
@@ -200,10 +210,12 @@ def choicebox(screen,_choices,message):
 
                         
 
+        canvas.fill([0,0,0])
+        okbutton.render(canvas)
+        blitcenter(txt,[320,128],canvas)
+        blitcenter(choices[choiceindex],[320,240],canvas)
         screen.fill([0,0,0])
-        okbutton.render()
-        blitcenter(txt,[320,128],screen)
-        blitcenter(choices[choiceindex],[320,240],screen)
+        screen.blit(canvas, [0,0])
         pygame.display.flip()
 
     return _choices[choiceindex]

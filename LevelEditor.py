@@ -16,17 +16,26 @@ def titlescreen():
 
     logo = pygame.image.load('logo.png')
 
-    start = Button(text("Start",40,[128,32,2]),[320,320],True)
+    start1 = Button(text("Create new",40,[128,32,2]),[320,320],True)
+    start2 = Button(text("Edit existing",40,[128,32,2]),[320,360],True)
+    
     
     while run == 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = 0
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if start1.hover():
+                    run = -1
+                if start2.hover():
+                    run = -2
+                
 
         screen.fill([0,0,0])
         blitcenter(logo,[320,128],screen)
 
-        start.render(screen)
+        start1.render(screen)
+        start2.render(screen)
 
         pygame.display.flip()
 

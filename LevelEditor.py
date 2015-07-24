@@ -30,6 +30,7 @@ while run:
         img=pygame.image.load(d["image"])
         canvas.blit(img, [xp, yp])
     events=pygame.event.get()
+    
     for event in events:
         if event.type==pygame.QUIT:
             run=0
@@ -53,7 +54,6 @@ while run:
                         d=d+k+"="+str(v)+" "
                     f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                     f.write("\n")
-                f.close()
             if event.key==pygame.K_p:
                 if levelname==None:
                     levelname=easygui.enterbox("Enter level path to save as:")
@@ -65,7 +65,6 @@ while run:
                             d=d+k+"="+str(v)+" "
                         f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                         f.write("\n")
-                    f.close()
                 main.loadlevel(screen, levelname)
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])

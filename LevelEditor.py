@@ -1,4 +1,4 @@
-import pygame, main, easygui
+import pygame, main
 from utils import *
 from objects import *
 from vector import Vector
@@ -6,7 +6,6 @@ pygame.init()
 
 screen = pygame.display.set_mode([640,480])
 
-enterbox(screen,"hi")
 
 pygame.display.set_caption("Omin: Level Editor")
 
@@ -44,7 +43,7 @@ while run:
                 objects.append([selected, diction, ["rendered", "updated"]])
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_s:
-                levelname=easygui.enterbox("Enter level path to save as:")
+                levelname=enterbox(screen, "Enter level path to save as:")
                 f=open(levelname, "w")
                 for o in objects:
                     d=""
@@ -55,7 +54,7 @@ while run:
                     f.write("\n")
             if event.key==pygame.K_p:
                 if levelname==None:
-                    levelname=easygui.enterbox("Enter level path to save as:")
+                    levelname=enterbox(screen, "Enter level path to save as:")
                     f=open(levelname, "w")
                     for o in objects:
                         d=""

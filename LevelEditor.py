@@ -68,7 +68,7 @@ while run:
                     f.close()
                 main.loadlevel(screen, levelname)
             if event.key==pygame.K_TAB:
-                selected=classes[choicebox(classes.keys())]
+                selected=classes[choicebox(screen, classes.keys(), "Select a type of object:")]
             if event.key==pygame.K_1:
                 if images[1]==None:
                     images[1]=enterbox(screen, "Enter image path to load:")
@@ -94,7 +94,21 @@ while run:
                     images[5]=enterbox(screen, "Enter image path to load:")
                 else:
                     image=images[5]
-            
+            if event.key==pygame.K_l:
+                levelname=enterbox(screen, "Enter level path to load:")
+                f=open(levelname)
+                lines=f.readlines()
+                objects=[]
+                for line in lines:
+                    code, groups=line.split("##")
+                    groups=groups.split(" ")
+                    kind=classes[code[0]]
+                    code=code[1:].split(" ")
+                    d=kind.defs
+                    for item in code:
+                        k, v = item.split(" ")
+                        d[k] = eval(v)
+                    objects.append([kind, d, groups])
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])
     pygame.display.flip()

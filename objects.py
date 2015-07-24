@@ -1,6 +1,6 @@
 import pygame, math
 from vector import Vector
-classes=["Object", "Wall", "CircleWall", "SquareWall"]
+classes={"Object", "Wall", "CircleWall", "SquareWall"}
 class Object(pygame.sprite.Sprite):
     props={"x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool"}
     defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":False}

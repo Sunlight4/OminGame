@@ -131,9 +131,7 @@ def enterbox(screen,title):
     title = text(text=title,color=[200,0,0],size=50)
     txt = ''
     run = True
-    canvas=pygame.Surface(screen.get_size())
-    canvas=canvas.convert()
-    canvas.fill([0,0,0])
+
     chars = ['a','b','c','d','e','f','g','h','i',
              'j','k','l','m','n','o','p','q','r',
              's','t','u','v','w','x','y','z',
@@ -162,15 +160,12 @@ def enterbox(screen,title):
                         else:
                             txt+=chr(key)
 
-        canvas.fill([0,0,0])
-        okbutton.render(canvas)
-        blitcenter(title,[320,128],canvas)
-        blitcenter(text(txt,50,[255,255,255]),[320,240],canvas)
         screen.fill([0,0,0])
-        screen.blit(canvas, [0,0])
+        okbutton.render(screen)
+        blitcenter(title,[320,128],screen)
+        blitcenter(text(txt,50,[255,255,255]),[320,240],screen)
         pygame.display.flip()
-        pygame.display.flip()
-    return text
+    return txt
 
 
     

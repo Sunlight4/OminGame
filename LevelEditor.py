@@ -10,7 +10,7 @@ screen = pygame.display.set_mode([640,480])
 
 pygame.display.set_caption("Omin: Level Editor")
 
-classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall, "Gravity":Gravity}
+classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall}
 main.titlescreen(screen)
 canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()
@@ -40,6 +40,7 @@ while run:
             run=0
         elif event.type==pygame.MOUSEBUTTONDOWN:
             if event.button==1:
+                levelname=None
                 x, y=pygame.mouse.get_pos()
                 diction={}
                 diction.update(selected.defs)
@@ -47,6 +48,11 @@ while run:
                 diction["y"]=y//24*24
                 diction["image"]=image
                 objects.append([selected, diction, ["rendered", "updated"]])
+            elif event.button==3:
+                for o in objects:
+                    try:
+                        pass
+                    except:pass
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_s:
                 levelname=enterbox(screen, "Enter level path to save as:")
@@ -55,7 +61,17 @@ while run:
                     d=""
                     for k in o[1].keys():
                         v=o[1][k]
-                        d=d+k+"="+repr(v)+" "
+                        inst=v
+                        should=o[0].props[k]
+                        if should=="str":
+                            inst=repr(v)
+                        elif should=="int":
+                            inst=repr(v)
+                        elif should=="bool":
+                            inst=repr(v)
+                        elif should=="Vector":
+                            inst="Vector("+str(v.x)+","+str(v.y)+")"
+                        d=d+k+"="+inst+" "
                     f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                     f.write("\n")
                 f.close()
@@ -67,7 +83,17 @@ while run:
                         d=""
                         for k in o[1].keys():
                             v=o[1][k]
-                            d=d+k+"="+repr(v)+" "
+                            inst=v
+                            should=o[0].props[k]
+                            if should=="str":
+                                inst=repr(v)
+                            elif should=="int":
+                                inst=repr(v)
+                            elif should=="bool":
+                                inst=repr(v)
+                            elif should=="Vector":
+                                inst="Vector("+str(v.x)+","+str(v.y)+")"
+                            d=d+k+"="+inst+" "
                         f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                         f.write("\n")
                     f.close()
@@ -110,7 +136,7 @@ while run:
                     code, groups=line.split("##")
                     groups=groups.split(" ")
                     code=code.split(" ")
-                    kind=classes[code[0]]
+                    kind=eval(code[0], globals(), locals())
                     code=code[1:]
                     d=kind.defs
                     for item in code:
@@ -121,6 +147,8 @@ while run:
                             except:d[k] = v
                         except:pass
                     objects.append([kind, d, groups])
+            if event.key==pygame.K_g:
+                objects.append([Gravity, {"strength":Vector(0, 1)}, ["forces"]])
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])
     pygame.display.flip()

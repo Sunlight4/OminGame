@@ -94,8 +94,8 @@ class RightTriangleWall(CircleWall):
             a=45
         return super(RightTriangleWall, self).normal(a)
 class Gravity(pygame.sprite.Sprite):
-    props={"Strength":"Vector"}
-    defs={"Strength":Vector(0, 1)}
+    props={"strength":"Vector"}
+    defs={"strength":Vector(0, 1)}
     def __init__(self, strength=None):
         super(Gravity, self).__init__()
         self.strength=strength

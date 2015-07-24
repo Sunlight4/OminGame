@@ -1,4 +1,5 @@
-Object y=216 x=0 image='Wall.png' fixed=False mass=50 ##rendered updated
-Object y=216 x=24 image='Wall.png' fixed=False mass=50 ##rendered updated
-Object y=216 x=48 image='Wall.png' fixed=False mass=50 ##rendered updated
+Gravity strength=<vector.Vector object at 0x4bb6db0> ##forces
 Object y=0 x=0 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=0 x=24 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=0 x=48 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=0 x=72 image='Wall.png' fixed=False mass=50 ##rendered updated

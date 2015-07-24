@@ -6,7 +6,10 @@ pygame.init()
 
 screen = pygame.display.set_mode([640,480])
 
+enterbox(screen,"hi")
+
 pygame.display.set_caption("Omin: Level Editor")
+
 
 main.titlescreen(screen)
 canvas=pygame.Surface(screen.get_size())

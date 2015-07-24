@@ -22,7 +22,7 @@ def runlevel(screen, path):
         screen.blit(canvas, [0,0])
         pygame.display.flip()
     print "Exited Level"
-def titlescreen(screen,musicpath="music/TitleScreen.m4a"):
+def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
     run = 1
     # 1 for mainloop
     # 0 for quit

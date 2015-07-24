@@ -20,7 +20,7 @@ def runlevel(screen, path):
         screen.blit(canvas, [0,0])
         pygame.display.flip()
     print "Exited Level"
-def titlescreen(screen,path):
+def titlescreen(screen):
     run = 1
     # 1 for mainloop
     # 0 for quit
@@ -45,14 +45,11 @@ def titlescreen(screen,path):
         start.render(screen)
 
         pygame.display.flip()
+if __name__=="__main__":
+    pygame.init()
+    path="testlevel/map.txt"
 
-    if run == 0:
-        pygame.quit()
-    elif run == -1:
-        runlevel(screen,path)
-pygame.init()
-path="testlevel/map.txt"
-
-screen=pygame.display.set_mode([640, 480])
-pygame.display.set_caption("Omin")
-titlescreen(screen,path)
+    screen=pygame.display.set_mode([640, 480])
+    pygame.display.set_caption("Omin")
+    titlescreen(screen)
+    load_level(screen,path)

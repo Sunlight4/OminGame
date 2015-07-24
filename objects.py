@@ -1,7 +1,8 @@
 import pygame, math
 from vector import Vector
 class Object(pygame.sprite.Sprite):
-    def __init__(self, x=0, y=0, image=None, mass=0, fixed=None, *args):
+    props={"x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool"}
+    def __init__(self, x=0, y=0, image=None, mass=0, fixed=False, *args):
         "Create an object with specified x, y, image, and mass. Calculate rect and mask for later, and make pos and velocity vectors"
         super(Object, self).__init__(*args)
         self.image=pygame.image.load(image)
@@ -17,7 +18,7 @@ class Object(pygame.sprite.Sprite):
     def update(self, args):
         "Check our forces, and change velocity accordingly, then change our position"
         super(Object, self).update()
-        if self.fixed==None:
+        if not self.fixed:
             total_force=Vector(0,0)
             for f in self.forces:total_force+=f
             vel_change=total_force/float(self.mass)

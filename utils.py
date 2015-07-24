@@ -105,8 +105,8 @@ class Button:
     def render(self,screen):
         screen.blit(self.surf,self.pos)
 
-def msg(message): # Broken
-    okbutton = Button(text(text='OK',color=[200,0,0]),[601,640])
+def msgbox(screen,message):
+    okbutton = Button(text('OK',50,[200,0,0]),[320,240],True)
     txt = text(text=message,color=[200,0,0],size=64)
     run = True
     
@@ -119,10 +119,10 @@ def msg(message): # Broken
                 if okbutton.hover():
                     run = False
 
-        fill([38,24,0])
+        screen.fill([0,0,0])
         okbutton.render()
-        blitcenter(txt,[640,320])
-        flip()
+        blitcenter(txt,[320,128],screen)
+        pygame.display.flip()
 
 
                 
@@ -166,6 +166,47 @@ def enterbox(screen,title):
         blitcenter(text(txt,50,[255,255,255]),[320,240],screen)
         pygame.display.flip()
     return txt
+
+def choicebox(screen,_choices,message):
+    choices = []
+
+    for choice in _choices:
+        choices.append(text(choice,50,[255,0,0]))
+
+    okbutton = Button(text('OK',50,[200,0,0]),[320,360],True)
+    txt = text(text=message,color=[200,0,0],size=64)
+    run = True
+    choiceindex = 0
+    
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                raise SystemExit
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if okbutton.hover():
+                    run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    if choiceindex == len(choices)-1:
+                        choiceindex = 0
+                    else:
+                        choiceindex += 1
+                if event.key == pygame.K_LEFT:
+                    if choiceindex == 0:
+                        choiceindex = len(choices)-1
+                    else:
+                        choiceindex -= 1
+
+                        
+
+        screen.fill([0,0,0])
+        okbutton.render()
+        blitcenter(txt,[320,128],screen)
+        blitcenter(choices[choiceindex],[320,240],screen)
+        pygame.display.flip()
+
+    return _choices[choiceindex]
 
 
     

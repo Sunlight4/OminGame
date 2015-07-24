@@ -3,6 +3,7 @@ from utils import *
 from objects import *
 from vector import Vector
 pygame.init()
+pygame.mixer.init()
 
 screen = pygame.display.set_mode([640,480])
 
@@ -14,7 +15,9 @@ main.titlescreen(screen)
 canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()
 canvas.fill([0,0,0])
-
+pygame.mixer.music.load("music/LevelEditorBGM.ogg")
+pygame.mixer.music.set_volume(1)
+pygame.mixer.music.play(-1)
 objects=[]
 selected=Object
 image="Wall.png"

@@ -3,8 +3,8 @@ from vector import Vector
 
 class Object(pygame.sprite.Sprite):
     props={"x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool"}
-    defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":False}
-    def __init__(self, x=0, y=0, image="Wall.png", mass=0, fixed=False, *args):
+    defs={"x":0, "y":0, "image":"Wall.png", "mass":50, "fixed":False}
+    def __init__(self, x=0, y=0, image="Wall.png", mass=50, fixed=False, *args):
         "Create an object with specified x, y, image, and mass. Calculate rect and mask for later, and make pos and velocity vectors"
         super(Object, self).__init__(*args)
         self.image=pygame.image.load(image)

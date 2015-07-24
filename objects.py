@@ -1,8 +1,10 @@
 import pygame, math
 from vector import Vector
+classes=["Object", "Wall", "CircleWall", "SquareWall"]
 class Object(pygame.sprite.Sprite):
     props={"x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool"}
-    def __init__(self, x=0, y=0, image=None, mass=0, fixed=False, *args):
+    defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":False}
+    def __init__(self, x=0, y=0, image="Wall.png", mass=0, fixed=False, *args):
         "Create an object with specified x, y, image, and mass. Calculate rect and mask for later, and make pos and velocity vectors"
         super(Object, self).__init__(*args)
         self.image=pygame.image.load(image)
@@ -30,11 +32,11 @@ class Object(pygame.sprite.Sprite):
     def addForce(self, v):
         self.forces.append(v)
 class Wall(Object):
-    def __init__(self, bouncy=1, rotation=0, **kw):
+    props={"bouncy":"int", "x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool"}
+    defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":True, "bouncy":1}
+    def __init__(self, bouncy=1, **kw):
         "Create a wall with specified bounciness, rotated by the given amount of degrees"
         super(Wall, self).__init__(**kw)
-        self.bouncy=bouncy
-        self.rotation=rotation
     def update(self, args):
         "Handle wall-object collisions: use our normal function, then move the object out of us, then do bounciness pushback"
         #TODO:Bounciness
@@ -43,9 +45,7 @@ class Wall(Object):
             print type(spr)
             #get normal force
             angle=math.degrees((spr.pos-self.pos).direction)
-            normal=self.normal((angle-self.rotation) % 360)
-            angle=math.degrees((spr.pos-self.pos).direction)
-            normal=self.normal((angle-self.rotation) % 360)
+            normal=self.normal((angle) % 360)
             a=(-normal).angle(spr.velocity)
             mN = math.cos(a) * spr.velocity.magnitude * self.bouncy * spr.mass
             spr.addForce(normal*mN)

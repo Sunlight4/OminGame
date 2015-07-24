@@ -30,8 +30,13 @@ def titlescreen(screen):
     logo = pygame.image.load('logo.png')
 
     start = Button(text("Start",40,[128,32,2]),[320,320],True)
-    
+    canvas=pygame.Surface(screen.get_size())
+    canvas=canvas.convert()
+    canvas.fill([0,0,0])
     while run == 1:
+        canvas.fill([0,0,0])
+        start.render(canvas)
+        blitcenter(logo,[320,128],canvas)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = 0
@@ -39,17 +44,12 @@ def titlescreen(screen):
                 if start.hover():
                     run = -1
 
+
         screen.fill([0,0,0])
-        blitcenter(logo,[320,128],screen)
+        screen.blit(canvas, [0,0])
+        
 
-        start.render(screen)
-
+        
         pygame.display.flip()
-if __name__=="__main__":
-    pygame.init()
-    path="testlevel/map.txt"
 
-    screen=pygame.display.set_mode([640, 480])
-    pygame.display.set_caption("Omin")
-    titlescreen(screen)
-    load_level(screen,path)
+    

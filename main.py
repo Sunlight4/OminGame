@@ -1,6 +1,8 @@
 import pygame, utils
 from utils import *
 
+pygame.mixer.init()
+
 def runlevel(screen, path):
     canvas=pygame.Surface(screen.get_size())
     canvas=canvas.convert()
@@ -20,12 +22,13 @@ def runlevel(screen, path):
         screen.blit(canvas, [0,0])
         pygame.display.flip()
     print "Exited Level"
-def titlescreen(screen):
+def titlescreen(screen,musicpath="music/TitleScreen.m4a"):
     run = 1
     # 1 for mainloop
     # 0 for quit
     # -1 for continue
-
+    pygame.mixer.music.load(musicpath)
+    pygame.mixer.music.play(-1)
 
     logo = pygame.image.load('logo.png')
 
@@ -51,5 +54,6 @@ def titlescreen(screen):
 
         
         pygame.display.flip()
+    pygame.mixer.music.stop()
 
     

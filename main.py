@@ -27,17 +27,16 @@ def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
     # 1 for mainloop
     # 0 for quit
     # -1 for continue
-<<<<<<< HEAD
+
 
     pygame.mixer.init()
     pygame.mixer.music.load("music/TitleScreen.ogg")
     pygame.mixer.music.set_volume(1)
     pygame.mixer.music.play(-1)
-=======
+
     pygame.mixer.music.load(musicpath)
     pygame.mixer.music.play(-1)
 
->>>>>>> origin/master
     logo = pygame.image.load('logo.png')
 
     start = Button(text("Start",40,[128,32,2]),[320,320],True)

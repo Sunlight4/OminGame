@@ -1,5 +1,31 @@
-Gravity strength=<vector.Vector object at 0x4bb6db0> ##forces
-Object y=0 x=0 image='Wall.png' fixed=False mass=50 ##rendered updated
-Object y=0 x=24 image='Wall.png' fixed=False mass=50 ##rendered updated
-Object y=0 x=48 image='Wall.png' fixed=False mass=50 ##rendered updated
-Object y=0 x=72 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=144 x=120 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=168 x=144 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=192 x=168 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=192 x=192 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=192 x=216 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=192 x=240 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=168 x=264 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=144 x=288 image='Wall.png' fixed=False mass=50 ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=336 image='Wall.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=312 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=360 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=384 image='Wall.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=408 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=432 image='Wall.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=456 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=480 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=504 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=168 x=528 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=192 x=528 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=96 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=168 x=96 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=168 x=120 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=192 x=120 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=192 x=144 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=216 x=144 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=216 x=168 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=216 x=192 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=216 x=216 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=192 x=240 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=168 x=264 image='testlevel/images.png' fixed=True ##rendered updated
+CircleWall bouncy=1 mass=0 y=144 x=288 image='testlevel/images.png' fixed=True ##rendered updated

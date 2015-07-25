@@ -57,10 +57,38 @@ while run:
                 diction["image"]=image
                 objects.append([selected, diction, ["rendered", "updated"]])
             elif event.button==3:
+                x, y=pygame.mouse.get_pos()
+
+                x -= x%24
+                y -= y%24
                 for o in objects:
-                    try:
-                        pass
-                    except:pass
+                    obj = o[1]
+                    keys = []
+
+                    for key in obj:
+                        keys.append(key)
+
+                    if x == obj['x']:
+                        if y == obj['y']:
+                            attr = choicebox(screen,keys,'Set value of:')
+                            val = enterbox(screen,"Set value to:")
+
+                            try:
+                                val = float(val)
+                            except:
+                                val = bool(val)
+                            else:
+                                val = str(val)
+                            obj[attr] = val
+
+                            objects[objects.index(o)] = [o[0],obj]
+
+                            
+                    
+
+                    
+
+                    
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_s:
                 levelname=enterbox(screen, "Enter level path to save as:")
@@ -182,7 +210,7 @@ while run:
                             elif should=="Vector":
                                 inst="Vector("+str(v.x)+","+str(v.y)+")"
                             d=d+k+"="+inst+" "
-                        f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
+                        f.write(o[0].__name__+" "+d+"##"+" ".join(o[1]))
                         f.write("\n")
                     f.close()
 

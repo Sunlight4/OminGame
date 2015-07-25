@@ -10,6 +10,8 @@ screen = pygame.display.set_mode([640,480])
 
 pygame.display.set_caption("Omin: Level Editor")
 
+print "Omin Level Editor"
+
 classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall,"AnimatedObject":AnimatedObject}
 main.titlescreen(screen)
 canvas=pygame.Surface(screen.get_size())
@@ -50,12 +52,25 @@ while run:
             if event.button==1:
                 levelname=None
                 x, y=pygame.mouse.get_pos()
-                diction={}
-                diction.update(selected.defs)
-                diction["x"]=x//24*24
-                diction["y"]=y//24*24
-                diction["image"]=image
-                objects.append([selected, diction, ["rendered", "updated"]])
+
+                delete = False
+                
+                for o in objects:
+                    obj = o[1]
+
+                    if x-x%24 == obj['x']:
+                        if y-y%24 == obj['y']:
+                            objects.remove(o)
+                            print "Deleted Object"
+                            delete = True
+
+                if not delete:
+                    diction={}
+                    diction.update(selected.defs)
+                    diction["x"]=x//24*24
+                    diction["y"]=y//24*24
+                    diction["image"]=image
+                    objects.append([selected, diction, ["rendered", "updated"]])
             elif event.button==3:
                 x, y=pygame.mouse.get_pos()
 

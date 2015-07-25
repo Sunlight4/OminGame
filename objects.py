@@ -31,6 +31,49 @@ class Object(pygame.sprite.Sprite):
         self.rect.top=self.pos.y-(self.rect.height/2.0)
     def addForce(self, v):
         self.forces.append(v)
+class AnimatedObject(Object):
+    props={"x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool", "animation":"str","speed":"int"}
+    defs={"x":0, "y":0, "image":"Wall.png", "mass":50, "fixed":False, "animation":"test.anim","speed":1}
+    def __init__(self,anim,**kw):
+        super(Wall, self).__init__(**kw)
+        self.frame=0
+        defs["animation"] = anim
+        self.animpath = defs["animation"]
+        self.frames = []
+        self.anim = open(anim,'r')
+        self.speed = 1
+
+        for line in self.anim.readlines():
+            line = line.strip()
+            if not line.startswith('#'):
+                if line.startswith('~'):
+                    line = line.strip('~')
+
+                    if line.startswith('speed'):
+                        self.speed = int(line.split('=')[1])
+                        defs["speed"] = int(line.split('=')[1])
+                else:
+                    frames.append(line)
+                    
+    def update(self, args):
+        "Check our forces, and change velocity accordingly, then change our position"
+        super(Object, self).update()
+        self.frame += 1
+        if self.frame == len(self.frames)-1:
+            self.frame = 0
+        if not self.fixed:
+            total_force=Vector(0,0)
+            for f in self.forces:total_force+=f
+            vel_change=total_force/float(self.mass)
+            self.velocity+=vel_change
+            self.pos+=self.velocity
+        self.forces=[]
+        self.rect.left=self.pos.x-(self.rect.width/2.0)
+        self.rect.top=self.pos.y-(self.rect.height/2.0)
+    def getImage(self):
+        return pygame.image.load(self.frames[self.frame])
+    
+    
 class Wall(Object):
     props={"bouncy":"int", "x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool"}
     defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":True, "bouncy":1}

@@ -10,7 +10,7 @@ screen = pygame.display.set_mode([640,480])
 
 pygame.display.set_caption("Omin: Level Editor")
 
-classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall}
+classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall,"AnimatedObject":AnimatedObject}
 main.titlescreen(screen)
 canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()

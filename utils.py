@@ -142,7 +142,7 @@ def enterbox(screen,title):
     chars = ['a','b','c','d','e','f','g','h','i',
              'j','k','l','m','n','o','p','q','r',
              's','t','u','v','w','x','y','z',
-             '.','/',
+             '.','/','_',',',
              '1','2','3','4','5','6','7','8','9','0']
     while run:
         for event in pygame.event.get():
@@ -176,7 +176,7 @@ def enterbox(screen,title):
         pygame.display.flip()
     return txt
 
-def choicebox(screen,_choices,message):
+def choicebox(screen,_choices,message): # Return choice
     choices = []
     canvas=pygame.Surface(screen.get_size())
     canvas=canvas.convert()

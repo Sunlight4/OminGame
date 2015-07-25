@@ -22,7 +22,7 @@ class Scene(object):
                 try:exec "g = self."+group
                 except:
                     g=pygame.sprite.Group()
-                    exec "self."+group+" = g"
+                    exec "self."+group.strip()+" = g"
                 try:g.add(o)
                 except:g.append(o)
     def update(self, events):

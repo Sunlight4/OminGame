@@ -85,7 +85,7 @@ while run:
                             
                             obj[attr] = val
 
-                            objects[objects.index(o)] = [o[0],obj]
+                            objects[objects.index(o)] = [o[0],obj,keys]
 
                             
                     
@@ -113,6 +113,7 @@ while run:
                         elif should=="Vector":
                             inst="Vector("+str(v.x)+","+str(v.y)+")"
                         d=d+k+"="+inst+" "
+
                     f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                     f.write("\n")
                 f.close()
@@ -214,7 +215,7 @@ while run:
                             elif should=="Vector":
                                 inst="Vector("+str(v.x)+","+str(v.y)+")"
                             d=d+k+"="+inst+" "
-                        f.write(o[0].__name__+" "+d+"##"+" ".join(o[1]))
+                        f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
                         f.write("\n")
                     f.close()
 

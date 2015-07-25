@@ -196,7 +196,7 @@ while run:
                     saved=levelname
                     f=open(levelname, "w")
                     for o in objects:
-                        d=""
+                        d=''
                         for k in o[1].keys():
                             v=o[1][k]
                             inst=v

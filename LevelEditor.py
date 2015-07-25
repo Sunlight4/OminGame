@@ -76,9 +76,13 @@ while run:
                             try:
                                 val = float(val)
                             except:
-                                val = bool(val)
-                            else:
-                                val = str(val)
+                                if val == 'True':
+                                    val = True
+                                elif val == 'False':
+                                    val = False
+                                else:
+                                    val = str(val)
+                            
                             obj[attr] = val
 
                             objects[objects.index(o)] = [o[0],obj]

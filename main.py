@@ -76,4 +76,5 @@ def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
         pygame.display.flip()
     pygame.mixer.music.stop()
 
-    
+def cheese(screen):
+    msgbox(screen, "I like cheese")

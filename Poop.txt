@@ -1,0 +1,4 @@
+Object y=216 x=336 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=240 x=336 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=264 x=336 image='Wall.png' fixed=False mass=50 ##rendered updated
+Object y=264 x=360 image='Wall.png' fixed=False mass=50 ##rendered updated

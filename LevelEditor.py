@@ -22,6 +22,7 @@ objects=[]
 selected=Object
 image="Wall.png"
 run=1
+selected_icn = pygame.image.load("lvleditor_res/selected.png")
 levelname=None
 saved = None
 images=[None, None, None, None, None, None, None, None, None, None]
@@ -33,8 +34,14 @@ while run:
             xp=d["x"]
             yp=d["y"]
             img=pygame.image.load(d["image"])
-            canvas.blit(img, [xp, yp])
+            canvas.blit(img, [xp, yp]) # Fixes image glitching on some displays
         except:pass
+    canvas.blit(selected_icn,[24,24])
+    try:
+        canvas.blit(pygame.image.load(image),[28,28])
+    except:
+        pass
+    
     events=pygame.event.get()
     for event in events:
         if event.type==pygame.QUIT:
@@ -157,6 +164,28 @@ while run:
                     main.runlevel(screen,saved)
                 else:
                     msgbox(screen,"Please save level first")
+                    levelname=enterbox(screen, "Enter level path to save as:")
+                    saved=levelname
+                    f=open(levelname, "w")
+                    for o in objects:
+                        d=""
+                        for k in o[1].keys():
+                            v=o[1][k]
+                            inst=v
+                            should=o[0].props[k]
+                            if should=="str":
+                                inst=repr(v)
+                            elif should=="int":
+                                inst=repr(v)
+                            elif should=="bool":
+                                inst=repr(v)
+                            elif should=="Vector":
+                                inst="Vector("+str(v.x)+","+str(v.y)+")"
+                            d=d+k+"="+inst+" "
+                        f.write(o[0].__name__+" "+d+"##"+" ".join(o[2]))
+                        f.write("\n")
+                    f.close()
+
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])
     pygame.display.flip()

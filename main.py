@@ -3,18 +3,24 @@ from utils import *
 
 pygame.mixer.init()
 
-def runlevel(screen, path):
+def runlevel(screen, path,editor=False):
     canvas=pygame.Surface(screen.get_size())
     canvas=canvas.convert()
     canvas.fill([0,0,0])
     sc=utils.Scene(path)
     run=1
-    while run:
+    while run == 1:
         canvas.fill([0,0,0])
         events=pygame.event.get()
         for event in events:
             if event.type==pygame.QUIT:
                 run=0
+            if event.type==pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    if editor:
+                        run = -2
+                    else:
+                        run = -1
         
         sc.update(events)
         sc.draw(canvas)
@@ -22,6 +28,13 @@ def runlevel(screen, path):
         screen.blit(canvas, [0,0])
         pygame.display.flip()
     print "Exited Level"
+    if run == 0:
+        pygame.quit()
+        raise SystemExit
+    if run == -2:
+        return
+    if run == -1:
+        pass # Go to pause menu
 def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
     run = 1
     # 1 for mainloop

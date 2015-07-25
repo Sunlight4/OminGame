@@ -23,6 +23,7 @@ selected=Object
 image="Wall.png"
 run=1
 levelname=None
+saved = None
 images=[None, None, None, None, None, None, None, None, None, None]
 while run:
     canvas.fill([0,0,0])
@@ -56,6 +57,7 @@ while run:
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_s:
                 levelname=enterbox(screen, "Enter level path to save as:")
+                saved=levelname
                 f=open(levelname, "w")
                 for o in objects:
                     d=""
@@ -78,6 +80,7 @@ while run:
             if event.key==pygame.K_p:
                 if levelname==None:
                     levelname=enterbox(screen, "Enter level path to save as:")
+                    saved=levelname
                     f=open(levelname, "w")
                     for o in objects:
                         d=""
@@ -149,6 +152,11 @@ while run:
                     objects.append([kind, d, groups])
             if event.key==pygame.K_g:
                 objects.append([Gravity, {"strength":Vector(0, 1)}, ["forces"]])
+            if event.key==pygame.K_f:
+                if not saved == None:
+                    main.runlevel(screen,saved)
+                else:
+                    msgbox(screen,"Please save level first")
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])
     pygame.display.flip()

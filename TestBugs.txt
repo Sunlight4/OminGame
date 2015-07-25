@@ -1,5 +1,0 @@
-Object y=192 x=120 image='Wall.png' fixed=False mass=50 ##rendered updated
-Object y=144 x=240 image='Wall.png' fixed=False mass=50 ##rendered updated
-Object y=240 x=264 image='Wall.png' fixed=False mass=50 ##rendered updated
-Object y=240 x=312 image='Wall.png' fixed=False mass=50 ##rendered updated
-Object y=2.0 x=312 image='Wall.png' fixed=False mass=50 ##y x image fixed mass

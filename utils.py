@@ -17,6 +17,7 @@ class Scene(object):
             code=setup+"("+",".join(code)+")"
             o=eval(code, globals(), locals())
             
+            
             for group in groups:
                 try:exec "g = self."+group
                 except:

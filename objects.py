@@ -35,7 +35,7 @@ class AnimatedObject(Object): # Animated object!
     props={"x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool", "animation":"str","speed":"int"}
     defs={"x":0, "y":0, "image":"Wall.png", "mass":50, "fixed":False, "animation":"test.anim","speed":1}
     def __init__(self,anim='test.anim',**kw):
-        super(Wall, self).__init__(**kw)
+        super(Object, self).__init__(**kw)
         self.frame=0
         defs["animation"] = anim
         self.animpath = defs["animation"]

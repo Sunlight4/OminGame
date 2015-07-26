@@ -99,8 +99,9 @@ while run:
                                     val = str(val)
                             
                             obj[attr] = val
-
+                            print [o[0],obj,keys]
                             objects[objects.index(o)] = [o[0],obj,keys]
+                            
 
                             
                     
@@ -111,6 +112,7 @@ while run:
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_s:
                 levelname=enterbox(screen, "Enter level path to save as:")
+                print levelname
                 saved=levelname
                 f=open(levelname, "w")
                 for o in objects:

@@ -33,7 +33,7 @@ class Weapon(Item):
         if targetEntity.hp <= 0:
             targetEntity.onDie()
     def onThrow(self):
-        pass
+        pass # TODO: Add throwing weapons
 
 class BasicSword(Weapon):
     def __init__(self):

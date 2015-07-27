@@ -121,6 +121,9 @@ def msgbox(screen,message):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if okbutton.hover():
                     run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    run = False
 
         canvas.fill([0,0,0])
         okbutton.render(canvas)
@@ -166,6 +169,8 @@ def enterbox(screen,title):
                             txt+=chr(key).capitalize()
                         else:
                             txt+=chr(key)
+                if event.key == pygame.K_RETURN:
+                    run = False
 
         canvas.fill([0,0,0])
         okbutton.render(canvas)
@@ -208,6 +213,8 @@ def choicebox(screen,_choices,message): # Return choice
                         choiceindex = len(choices)-1
                     else:
                         choiceindex -= 1
+                if event.key == pygame.K_RETURN:
+                    run = False
 
                         
 

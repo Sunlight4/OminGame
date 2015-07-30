@@ -8,7 +8,7 @@ pygame.mixer.init()
 screen = pygame.display.set_mode([640,480])
 
 
-pygame.display.set_caption("Omin: Level Editor")
+pygame.display.set_caption("Omin: Level Editor") # Use the force, Luke
 
 print "Omin Level Editor"
 

@@ -35,8 +35,22 @@ class Weapon(Item):
     def onThrow(self):
         pass # TODO: Add throwing weapons
 
-class BasicSword(Weapon):
+class RustyKnife(Weapon):
     def __init__(self):
-        super(Weapon,self).__init__('BasicSword',image,True,value,5,15,12)
+        super(Weapon,self).__init__('BasicSword',image,True,value,2,6,12)
+
+class BrassSword(Weapon):
+    def __init__(self):
+        super(Weapon,self).__init__('item.weapon.brass_sword',image,True,value,3,10,12)
+class BronzeSword(Weapon):
+    def __init__(self):
+        super(Weapon,self).__init__('item.weapon.bronze_sword',image,True,value,5,12,12)
+class IronSword(Weapon):
+    def __init__(self):
+        super(Weapon,self).__init__('item.weapon.iron_sword',image,True,value,7,15,12)
+class PureIronSword(Weapon):
+    def __init__(self):
+        super(Weapon,self).__init__('item.weapon.iron_sword_pure',image,True,value,3,10,12)
+        
         
         

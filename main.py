@@ -3,7 +3,7 @@ from utils import *
 
 pygame.mixer.init()
 
-def runlevel(screen, path,editor=False):
+def runlevel(screen, path,editor=False,game=None):
     canvas=pygame.Surface(screen.get_size())
     canvas=canvas.convert()
     canvas.fill([0,0,0])
@@ -95,6 +95,7 @@ class GameInstance:
     def startGame(self,screen):
         titlescreen(screen)
         msgbox(screen,"Omin Origins","Start")
+        runlevel(screen,'level/origins/level1.txt')
         
 
 

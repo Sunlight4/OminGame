@@ -72,7 +72,10 @@ def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
         screen.fill([0,0,0])
         screen.blit(canvas, [0,0])
         
-
+        if start.hover():
+            start = Button(text("Start",45,[200,32,2]),[320,320],True)
+        else:
+            start = Button(text("Start",40,[128,32,2]),[320,320],True)
         
         pygame.display.flip()
     pygame.mixer.music.stop()

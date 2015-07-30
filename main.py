@@ -62,7 +62,8 @@ def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
         blitcenter(logo,[320,128],canvas)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = 0
+                pygame.quit()
+                raise SystemExit
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if start.hover():
                     run = -1
@@ -76,5 +77,21 @@ def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
         pygame.display.flip()
     pygame.mixer.music.stop()
 
-def cheese(screen):
-    msgbox(screen, "I like cheese")
+def main(screen):
+    game = GameInstance()
+    game.startGame(screen)
+class GameInstance:
+    def __init__(self):
+        self.level = 0
+        self.hp = 0
+        self.sp = 0
+        self.inv = 0
+        self.stealth = 0
+        self.perception = 0
+
+    def startGame(self,screen):
+        titlescreen(screen)
+        msgbox(screen,"Omin Origins","Start")
+        
+
+

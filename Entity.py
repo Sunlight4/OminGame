@@ -9,10 +9,11 @@ class Entity:
         self.maxl
         self.x = x
         self.y = y
+        self.dead = False
         self.life = life
         self.equip = equip
     def onUpdate(self,screen):
         screen.blit(self.image,[self.x,self.y])
     def onDie(self):
-        pass
+        self.dead = True
         

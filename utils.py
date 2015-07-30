@@ -106,8 +106,8 @@ class Button:
     def render(self,screen):
         screen.blit(self.surf,self.pos)
 
-def msgbox(screen,message):
-    okbutton = Button(text('OK',50,[200,0,0]),[320,240],True)
+def msgbox(screen,message,okbutton='OK'):
+    okbutton = Button(text(okbutton,50,[200,0,0]),[320,240],True)
     txt = text(text=message,color=[200,0,0],size=64)
     run = True
     canvas=pygame.Surface(screen.get_size())

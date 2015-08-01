@@ -6,9 +6,37 @@ class Scene(object):
     updated=pygame.sprite.Group()
     forces=pygame.sprite.Group()
     def __init__(self, path):
+        print "Loading level: "+path
+        self.music = None
+        self.rgb_bg = [0,0,0]
+        self.bg = None
+        pygame.mixer.music.stop()
         f=open(path).readlines()
         for line in f:
             if line.startswith("//"):continue
+            if line.startswith('.'):
+                line = line.strip().strip('.').split('=')
+
+                attr = line[0]
+                val = line[1]
+
+                if attr == 'music':
+                    self.music = val
+                    print "Music is: "+val
+                elif attr == 'bg':
+                    print "Level bg image is: "+val
+                    self.bg = pygame.image.load(val)
+                elif attr == 'rgb_bg':
+                    rgb = val.split(',')
+
+                    r = int(rgb[0])
+                    b = int(rgb[1])
+                    g = int(rgb[2])
+
+                    print "Level bg is: "+str([r,g,b])
+                    self.rgb_bg = [r,g,b]
+                continue
+            
             code, groups=line.split("##")
             groups=groups.split(" ")
             code=code.split(" ")
@@ -25,12 +53,19 @@ class Scene(object):
                     exec "self."+group.strip()+" = g"
                 try:g.add(o)
                 except:g.append(o)
+
+        if not self.music == None:
+            pygame.mixer.music.load(self.music)
+            pygame.mixer.music.play(-1)
     def update(self, events):
         rendered=self.rendered
         updated=self.updated
         self.forces.update({"events":events, "rendered":rendered, "updated":updated})
         self.updated.update({"events":events, "rendered":rendered, "updated":updated})
     def draw(self, canvas):
+        canvas.fill(self.rgb_bg)
+        if not self.bg == None:
+            canvas.blit(self.bg,[0,0])
         self.rendered.draw(canvas)
 
 def blitcenter(surf,pos,screen): # Blit pygame.Surface with center anchor

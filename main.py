@@ -3,7 +3,21 @@ from utils import *
 
 pygame.mixer.init()
 
-def runlevel(screen, path,editor=False,game=None):
+class GameInstance:
+    def __init__(self):
+        self.level = 0
+        self.hp = 0
+        self.sp = 0
+        self.inv = 0
+        self.stealth = 0
+        self.perception = 0
+
+    def startGame(self,screen):
+        titlescreen(screen)
+        msgbox(screen,"Omin Origins","Start")
+        runlevel(screen,'level/origins/level1.txt')
+
+def runlevel(screen,path,game=GameInstance()):
     canvas=pygame.Surface(screen.get_size())
     canvas=canvas.convert()
     canvas.fill([0,0,0])
@@ -83,19 +97,7 @@ def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
 def main(screen):
     game = GameInstance()
     game.startGame(screen)
-class GameInstance:
-    def __init__(self):
-        self.level = 0
-        self.hp = 0
-        self.sp = 0
-        self.inv = 0
-        self.stealth = 0
-        self.perception = 0
 
-    def startGame(self,screen):
-        titlescreen(screen)
-        msgbox(screen,"Omin Origins","Start")
-        runlevel(screen,'level/origins/level1.txt')
         
 
 

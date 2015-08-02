@@ -1,4 +1,4 @@
-import pygame, utils
+import pygame, utils, os
 from utils import *
 
 pygame.mixer.init()
@@ -67,29 +67,63 @@ def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
     logo = pygame.image.load('logo.png')
 
     start = Button(text("Start",40,[128,32,2]),[320,320],True)
+    new = Button(text("New",40,[128,32,2]),[320,360],True)
+    load = Button(text("Continue",40,[128,32,2]),[320,400],True)
     canvas=pygame.Surface(screen.get_size())
     canvas=canvas.convert()
     canvas.fill([0,0,0])
     while run == 1:
         canvas.fill([0,0,0])
-        start.render(canvas)
+        new.render(canvas)
+        load.render(canvas)
         blitcenter(logo,[320,128],canvas)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 raise SystemExit
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if start.hover():
-                    run = -1
+                if new.hover():
+                    usrname = utils.enterbox(screen,"Name:")
+
+                    if os.path.isfile('users/'+usrname+'.txt'):
+                        msgbox("Name is taken.")
+                    else:
+                        fl = open('users/'+usrname+'.txt','w+')
+
+                        fl.write('''level=level/origins/level1.txt
+hp=0
+sp=0
+inv=[]
+stealth=0
+perception=0
+''')
+                        # Indentation much?
+
+                        fl.close()
+                if load.hover():
+                    namesfls = os.listdir('users/')
+                    names = []
+
+                    for i in namesfls:
+                        if i.startswith('.'):
+                            continue
+                        names.append(i.strip('.txt'))
+
+                    utils.choicebox(screen,names,"Choose a save file")
+                    
 
 
         screen.fill([0,0,0])
         screen.blit(canvas, [0,0])
         
-        if start.hover():
-            start = Button(text("Start",45,[200,32,2]),[320,320],True)
+        if new.hover():
+            new = Button(text("New Game",45,[200,32,2]),[320,360],True)
         else:
-            start = Button(text("Start",40,[128,32,2]),[320,320],True)
+            new = Button(text("New Game",40,[128,32,2]),[320,360],True)
+        if load.hover():
+            load = Button(text("Continue",45,[200,32,2]),[320,400],True)
+        else:
+            load = Button(text("Continue",40,[128,32,2]),[320,400],True)
         
         pygame.display.flip()
     pygame.mixer.music.stop()

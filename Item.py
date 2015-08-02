@@ -1,11 +1,11 @@
 import pygame, math, random
 
-class Item:
-    def __init__(self,name,image,reuseable,value):
+class Item(object):
+    def __init__(self,itemname,image,reuseable,value):
         self.image=pygame.image.load(image)
-        self.attrs = ['name','image','reuseable','value']
+        self.itemattrs = ['name','image','reuseable','value']
         self.path = image
-        self.name = name
+        self.name = itemname
         self.x=0
         self.y=0
         self.reusable = reuseable
@@ -17,9 +17,9 @@ class Item:
         pass
 
 class Weapon(Item):
-    def __init__(self,name,image,value,damage,maxdamage,speed):
+    def __init__(self,itemname,image,value,damage,maxdamage,speed):
         super(Weapon,self).__init__('Weapon',image,True,value)
-        self.attrs = ['name','image','damage','maxdamage','value','speed']
+        self.itemattrs = ['name','image','damage','maxdamage','value','speed']
         self.damage=damage
         self.maxdamage=maxdamage
         self.speed = speed # Cooldown in frames
@@ -37,22 +37,8 @@ class Weapon(Item):
     def onThrow(self):
         pass # TODO: Add throwing weapons
 
-class RustyKnife(Weapon):
-    def __init__(self):
-        super(Weapon,self).__init__('BasicSword',image,True,value,2,6,12)
-
 class BrassSword(Weapon):
     def __init__(self):
-        super(Weapon,self).__init__('item.weapon.brass_sword','testlevel/Ball.png',True,value,3,10,12)
-class BronzeSword(Weapon):
-    def __init__(self):
-        super(Weapon,self).__init__('item.weapon.bronze_sword',image,True,value,5,12,12)
-class IronSword(Weapon):
-    def __init__(self):
-        super(Weapon,self).__init__('item.weapon.iron_sword',image,True,value,7,15,12)
-class PureIronSword(Weapon):
-    def __init__(self):
-        super(Weapon,self).__init__('item.weapon.iron_sword_pure',image,True,value,3,10,12)
-        
+        super(BrassSword,self).__init__('item.weapon.brass_sword','testlevel/Ball.png',15,3,10,12)
         
         

@@ -1,4 +1,5 @@
 import Item,pygame,utils
+from utils import *
 
 class Inventory:
     def __init__(self,items):
@@ -7,10 +8,10 @@ class Inventory:
 def itemInfo(screen,item):
     run = 1
 
+    print item.itemattrs
     img = pygame.image.load(item.path)
     canvas=pygame.Surface(screen.get_size())
     canvas=canvas.convert()
-    
 
     while 1:
         for event in pygame.event.get():
@@ -25,15 +26,18 @@ def itemInfo(screen,item):
 
         canvas.fill([0,0,0])
 
-        utils.blitcenter(text(item.name,50,[255,255,255]),[320,128])
+        utils.blitcenter(text(item.name,50,[255,255,255]),[320,128],canvas)
         
         utils.blitcenter(img,[320,240],canvas)
 
-        y = 320
+        y = 280
 
-        for attr in item.attrs:
-            canvas.blit(text(attr+': '+str(getattr(item,attr)),25,[255,0,0]),[320,y])
+        for attr in item.itemattrs:
+            print attr,getattr(item,attr)
+            canvas.blit(text(attr+': '+str(getattr(item,attr)),25,[255,0,0]),[120,y])
             y+=32
+        screen.blit(canvas,[0,0])
+        pygame.display.flip()
 
 
         

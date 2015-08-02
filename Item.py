@@ -43,7 +43,7 @@ class RustyKnife(Weapon):
 
 class BrassSword(Weapon):
     def __init__(self):
-        super(Weapon,self).__init__('item.weapon.brass_sword',image,True,value,3,10,12)
+        super(Weapon,self).__init__('item.weapon.brass_sword','testlevel/Ball.png',True,value,3,10,12)
 class BronzeSword(Weapon):
     def __init__(self):
         super(Weapon,self).__init__('item.weapon.bronze_sword',image,True,value,5,12,12)

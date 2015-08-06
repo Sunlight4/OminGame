@@ -93,6 +93,7 @@ class Wall(Object):
             mN = math.cos(a) * spr.velocity.magnitude * self.bouncy * spr.mass
             spr.addForce(normal*mN)
             print mN
+            opos=spr.pos
             #move the object so it isn't penetrating me
             while pygame.sprite.collide_mask(self, spr):
                 spr.pos+=normal
@@ -101,6 +102,11 @@ class Wall(Object):
             spr.pos+=(normal/2.0)
             spr.rect.left=spr.pos.x-(spr.rect.width/2.0)
             spr.rect.top=spr.pos.y-(spr.rect.height/2.0)
+            diff=spr.pos-opos
+            spr.pos=opos
+            spr.rect.left=spr.pos.x-(spr.rect.width/2.0)
+            spr.rect.top=spr.pos.y-(spr.rect.height/2.0)
+            spr.addforce(diff*spr.mass)
             #TODO:fix this
             
     def normal(self, angle):

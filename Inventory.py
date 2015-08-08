@@ -33,7 +33,8 @@ def itemInfo(screen,item):
         y = 280
 
         for attr in item.itemattrs:
-            print attr,getattr(item,attr)
+            if attr == 'image' or attr == 'path' or attr == 'name':
+                continue
             canvas.blit(text(attr+': '+str(getattr(item,attr)),25,[255,0,0]),[120,y])
             y+=32
         screen.blit(canvas,[0,0])

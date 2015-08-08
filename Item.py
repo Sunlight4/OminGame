@@ -3,7 +3,7 @@ import pygame, math, random
 class Item(object):
     def __init__(self,itemname,image,reuseable,value):
         self.image=pygame.image.load(image)
-        self.itemattrs = ['name','image','reuseable','value']
+        self.itemattrs = ['name','image','path','reuseable','value']
         self.path = image
         self.name = itemname
         self.x=0
@@ -19,7 +19,7 @@ class Item(object):
 class Weapon(Item):
     def __init__(self,itemname,image,value,damage,maxdamage,speed):
         super(Weapon,self).__init__('Weapon',image,True,value)
-        self.itemattrs = ['name','image','damage','maxdamage','value','speed']
+        self.itemattrs = ['name','image','path','damage','maxdamage','value','speed']
         self.damage=damage
         self.maxdamage=maxdamage
         self.speed = speed # Cooldown in frames

@@ -8,7 +8,7 @@ pygame.mixer.init()
 pygame.display.set_caption("Omin: Level Editor")
 
 screen=pygame.display.set_mode([640, 480])
-titlescreen(screen)
+#titlescreen(screen)
 pygame.mixer.music.load("music/LevelEditorBGM.ogg")
 pygame.mixer.music.play(-1)
 canvas=pygame.Surface(screen.get_size())

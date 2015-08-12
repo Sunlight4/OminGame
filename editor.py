@@ -57,7 +57,7 @@ while run:
                     kind=f_dict[choicebox(screen, f_dict.keys(), "Select a type of force:")]
                     props=kind.defs
                     for prop in props.keys():
-                        change=choicebox(screen, ["Change", "OK"], "Current value of "+prop+" is "+str(props[prop])+". OK or change?")=="Change"
+                        change=choicebox(screen, ["Change", "OK"], prop+" is "+str(props[prop])+". OK or change?")=="Change"
                         if change:
                             new = eval(enterbox(screen, "Enter new value:"), globals(), locals())
                             props[prop] = new

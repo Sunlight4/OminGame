@@ -83,7 +83,7 @@ while run:
                     pygame.display.flip()
                 print "Exited Level"
                 run=1
-<<<<<<< HEAD
+
             elif event.key==pygame.K_m:
                 musicpath = enterbox(screen,"Set music path:")
                 pygame.mixer.music.stop()
@@ -95,9 +95,9 @@ while run:
                 b = int(enterbox(screen,"Background Blue value"))
 
                 sc.rgb_bg = [r,g,b]
-=======
+
                 sc=oldsc
->>>>>>> origin/master
+
                 
     screen.fill(bgcolor)
     screen.blit(canvas, [0,0])

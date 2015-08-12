@@ -15,6 +15,7 @@ canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()
 canvas.fill([0,0,0])
 objects=[]
+selected=[]
 run=1
 def tool_quickedit(xo, yo, objects):
     nobjects=[]
@@ -35,7 +36,6 @@ def tool_quickedit(xo, yo, objects):
     return nobjects
 def tool_select(xo, yo, objects):
     nobjects=[]
-    selected=[]
     for o in objects:
         r=pygame.image.load(o[1]["image"]).get_rect()
         if o[1]["x"]<=xo<=o[1]["x"]+r.width:
@@ -94,6 +94,7 @@ def save(objects):
     f.close()
 tool=tool_select
 levelname = None
+selected_border = pygame.image.load('selected.png')
 while run == 1:
     canvas.fill([0,0,0])
     for o in objects:
@@ -103,6 +104,9 @@ while run == 1:
             yp=d["y"]
             img=pygame.image.load(d["image"])
             canvas.blit(img, [xp, yp]) # Fixes image glitching on some displays
+
+    for s in selected:
+        canvas.blit(selected_border,[int(s[1]["x"]),int(s[1]["y"])])
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = 0
@@ -162,6 +166,8 @@ while run == 1:
                     objects.append([kind, d, groups])
             elif event.key==pygame.K_q:
                 tool=tool_quickedit
+            elif event.key==pygame.K_RSHIFT:
+                pass
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])
 

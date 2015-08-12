@@ -1,3 +1,0 @@
-Wall bouncy=1 mass=0 y=192.0 x=192.0 image='testlevel/Ball.png' fixed=True##rendered updated
-Wall bouncy=1 mass=0 y=216.0 x=192.0 image='testlevel/Ball.png' fixed=True##rendered updated
-Wall bouncy=1 mass=0 y=240.0 x=192.0 image='testlevel/Ball.png' fixed=True##rendered updated

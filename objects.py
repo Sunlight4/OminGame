@@ -31,6 +31,15 @@ class Object(pygame.sprite.Sprite): # Base class
         self.rect.top=self.pos.y-(self.rect.height/2.0)
     def addforce(self, v):
         self.forces.append(v)
+    def save(self, f):
+        string=self.__class__.__name__
+        x=self.rect.left
+        y=self.rect.top
+        image=self.image
+        mass=self.mass
+        fixed=self.fixed
+        string=string+" x=%s y=%s image=%s mass=%s fixed=%s##rendered updated" %(x, y, image, mass, fixed)
+        f.write(string)
 class AnimatedObject(Object): # Animated object!
     props={"x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool", "animation":"str","speed":"int"}
     defs={"x":0, "y":0, "image":"Wall.png", "mass":50, "fixed":False, "animation":"test.anim","speed":1}
@@ -113,6 +122,16 @@ class Wall(Object):
     def normal(self, angle):
         "Default normal function: simply return up vector"
         return Vector(0, -1)
+    def save(self, f):
+        string=self.__class__.__name__
+        x=self.rect.left
+        y=self.rect.top
+        image=self.image
+        mass=self.mass
+        fixed=self.fixed
+        bouncy=self.bouncy
+        string=string+"bouncy=%s x=%s y=%s image=%s mass=%s fixed=%s##rendered updated" %(bouncy, x, y, image, mass, fixed)
+        f.write(string)
 class CircleWall(Wall):
     "Special class for circle walls. Simply changes the normal function to pushback based on the exact angle"
     def normal(self, angle):
@@ -152,6 +171,11 @@ class Gravity(pygame.sprite.Sprite):
     def update(self, args):
         for spr in args["updated"].sprites():
             spr.addforce(self.strength*spr.mass)
+    def save(self, f)
+        string=self.__class__.__name__
+        strength="Vector("+str(self.strength.x)+","+str(self.strength.y)+")"
+        string=string+" strength="+strength+"##forces"
+        f.write(string)
             
         
         

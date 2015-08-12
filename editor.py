@@ -84,6 +84,17 @@ while run:
                             new = eval(enterbox(screen, "Enter new value:"), globals(), locals())
                             props[prop] = new
                     sc.forces.add(kind(**props))
+            elif event.key==pygame.K_s:
+                levelname=enterbox(screen, "Enter level path to save as:")
+                f=open(levelname, "w")
+                full=pygame.sprite.Group()
+                for g in [sc.rendered, sc.updated, sc.forces]:
+                    for o in g.sprites():
+                        full.add(o)
+                for s in full.sprites():
+                    s.save(f)
+                f.close()
+                        
             elif event.key==pygame.K_p:
                 oldsc=sc
                 run=1

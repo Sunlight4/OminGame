@@ -33,6 +33,24 @@ def make_tool_create(kind, img):
 def tool_delete(x, y):
     for o in sc.updated.sprites():
         if o.rect.collidepoint([x, y]):o.kill()
+def tool_edit(x,y):
+    for o in sc.updated.sprites():
+        if o.rect.collidepoint([x, y]):
+            attrs = []
+            for a in o.defs:
+                attrs.append(a)
+            attr = choicebox(screen,attrs,"Choose attribute")
+            val = enterbox(screen,"Set to:")
+
+            if type(val) == int:
+                val = int(val)
+            elif val.lower() == 'false' or val.lower() == 'true':
+                if val.lower() == 'true':
+                    val = True
+                else:
+                    val = Falses
+
+            o.defs[attr] = val
 tool=tool_donothing
 while run:
     canvas.fill(bgcolor)
@@ -97,6 +115,8 @@ while run:
                 sc.rgb_bg = [r,g,b]
 
                 sc=oldsc
+            elif event.key == pygame.K_e:
+                tool = tool_edit
 
                 
     screen.fill(bgcolor)

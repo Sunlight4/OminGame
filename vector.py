@@ -23,6 +23,8 @@ class Vector(object):
             return self.normalize()*maximum
         else:
             return Vector(self.x, self.y)
+    def __str__(self):
+        return "<%s, %s>" %(self.x, self.y)
     def __add__(self, other):
         return Vector(self.x+other.x, self.y+other.y)
     def __sub__(self, other):

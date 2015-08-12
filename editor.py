@@ -6,6 +6,7 @@ pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode([640,480])
 classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall}
+f_dict={"Gravity":Gravity}
 pygame.display.set_caption("Omin: Level Editor")
 canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()
@@ -14,6 +15,7 @@ canvas.fill([0,0,0])
 pygame.mixer.music.load("music/LevelEditorBGM.ogg")
 pygame.mixer.music.set_volume(1)
 pygame.mixer.music.play(-1)
+print "Music on"
 sc=Scene("empty.txt")
 run=1
 def tool_donothing(*args):pass
@@ -47,7 +49,21 @@ while run:
                 tool=make_tool_create(kind, img)
             elif event.key==pygame.K_x:
                 tool=tool_delete
+            elif event.key==pygame.K_f:
+                msgbox(screen, "Force Manager")
+                forces=sc.forces.sprites()
+                a=choicebox(screen, ["Add", "Manage"], "Add new or manage old?")
+                if a=="Add":
+                    kind=f_dict[choicebox(screen, f_dict.keys(), "Select a type of force:")]
+                    props=kind.defs
+                    for prop in props.keys():
+                        change=choicebox(screen, ["Change", "OK"], "Current value of "+prop+" is "+str(props[prop])+". OK or change?")=="Change"
+                        if change:
+                            new = eval(enterbox(screen, "Enter new value:"), globals(), locals())
+                            props[prop] = new
+                    sc.forces.add(kind(**props))
             elif event.key==pygame.K_p:
+                oldsc=sc
                 run=1
                 while run == 1:
                     canvas.fill([0,0,0])
@@ -63,6 +79,7 @@ while run:
                     pygame.display.flip()
                 print "Exited Level"
                 run=1
+                sc=oldsc
                 
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])

@@ -10,6 +10,10 @@ pygame.display.set_caption("Omin: Level Editor")
 canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()
 canvas.fill([0,0,0])
+
+musicpath = ''
+bgcolor = [0,0,0]
+
 #main.titlescreen(screen)
 pygame.mixer.music.load("music/LevelEditorBGM.ogg")
 pygame.mixer.music.set_volume(1)
@@ -29,7 +33,7 @@ def tool_delete(x, y):
         if o.rect.collidepoint([x, y]):o.kill()
 tool=tool_donothing
 while run:
-    canvas.fill([0,0,0])
+    canvas.fill(bgcolor)
     sc.draw(canvas)
     events=pygame.event.get()
     for event in events:
@@ -63,8 +67,19 @@ while run:
                     pygame.display.flip()
                 print "Exited Level"
                 run=1
+            elif event.key==pygame.K_m:
+                musicpath = enterbox(screen,"Set music path:")
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load(musicpath)
+                pygame.mixer.music.play(-1)
+            elif event.key==pygame.K_b:
+                r = int(enterbox(screen,"Background Red value"))
+                g = int(enterbox(screen,"Background Green value"))
+                b = int(enterbox(screen,"Background Blue value"))
+
+                sc.rgb_bg = [r,g,b]
                 
-    screen.fill([0,0,0])
+    screen.fill(bgcolor)
     screen.blit(canvas, [0,0])
     pygame.display.flip()
-    
+pygame.quit()

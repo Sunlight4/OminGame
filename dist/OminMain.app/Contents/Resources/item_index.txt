@@ -1,0 +1,7 @@
+item.weapon.brass_sword=BrassSword
+item.weapon.bronze_sword=BronzeSword
+item.weapon.iron_sword=IronSword
+item.weapon.iron_sword_pure=PureIronSword
+item.wood=Wood
+item.stone=Stone
+item.iron=Iron

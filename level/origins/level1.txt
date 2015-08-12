@@ -1,7 +1,4 @@
 // Technically a test level :)
-.music=music/PeacefulBGM.ogg
-.bg=logo.png
-.rgb_bg=255,255,255
 Object y=456 x=0 image='Wall.png' fixed=False mass=50 ##rendered updated
 Object y=456 x=24 image='Wall.png' fixed=False mass=50 ##rendered updated
 Object y=456 x=120 image='Wall.png' fixed=False mass=50 ##rendered updated

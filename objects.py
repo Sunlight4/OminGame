@@ -29,7 +29,7 @@ class Object(pygame.sprite.Sprite): # Base class
         self.forces=[]
         self.rect.left=self.pos.x-(self.rect.width/2.0)
         self.rect.top=self.pos.y-(self.rect.height/2.0)
-    def addForce(self, v):
+    def addforce(self, v):
         self.forces.append(v)
 class AnimatedObject(Object): # Animated object!
     props={"x":"int", "y":"int", "image":"str", "mass":"int", "fixed":"bool", "animation":"str","speed":"int"}
@@ -79,6 +79,7 @@ class Wall(Object):
     defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":True, "bouncy":1}
     def __init__(self, bouncy=1, **kw):
         "Create a wall with specified bounciness, rotated by the given amount of degrees"
+        self.bouncy=bouncy
         super(Wall, self).__init__(**kw)
     def update(self, args):
         "Handle wall-object collisions: use our normal function, then move the object out of us, then do bounciness pushback"
@@ -91,7 +92,7 @@ class Wall(Object):
             normal=self.normal((angle) % 360)
             a=(-normal).angle(spr.velocity)
             mN = math.cos(a) * spr.velocity.magnitude * self.bouncy * spr.mass
-            spr.addForce(normal*mN)
+            spr.addforce(normal*mN)
             print mN
             opos=spr.pos
             #move the object so it isn't penetrating me
@@ -150,7 +151,7 @@ class Gravity(pygame.sprite.Sprite):
         self.strength=strength
     def update(self, args):
         for spr in args["updated"].sprites():
-            spr.addForce(self.strength*spr.mass)
+            spr.addforce(self.strength*spr.mass)
             
         
         

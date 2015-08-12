@@ -1,0 +1,6 @@
+level=level/origins/level1.txt
+hp=0
+sp=0
+inv=[]
+stealth=0
+perception=0

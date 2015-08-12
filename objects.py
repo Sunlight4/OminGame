@@ -171,7 +171,7 @@ class Gravity(pygame.sprite.Sprite):
     def update(self, args):
         for spr in args["updated"].sprites():
             spr.addforce(self.strength*spr.mass)
-    def save(self, f)
+    def save(self, f):
         string=self.__class__.__name__
         strength="Vector("+str(self.strength.x)+","+str(self.strength.y)+")"
         string=string+" strength="+strength+"##forces"

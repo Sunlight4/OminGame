@@ -50,7 +50,7 @@ def tool_edit(x,y):
                 else:
                     val = Falses
 
-            o.defs[attr] = val
+            o.__dict__[attr] = val
 tool=tool_donothing
 while run:
     canvas.fill(bgcolor)

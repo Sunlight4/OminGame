@@ -8,6 +8,32 @@ pygame.init()
 pygame.mixer.init()
 pygame.display.set_caption("Omin: Level Editor")
 
+cnfg = open('init/config.ini','r')
+
+lines = cnfg.readlines()
+options = {}
+for line in lines:
+    line = line.strip()
+
+    if line == '' or line.startswith('#'):
+        continue
+    attr = line.split('=')[0]
+    val = line.split('=')[1]
+
+    try:
+        val = float(val)
+    except:
+        if val.lower() == 'false' or val.lower() == 'true':
+            if val.lower() == 'true':
+                val = True
+            else:
+                val = False
+    options[attr] = val
+
+pygame.mixer.music.set_volume(options['volume'])
+    
+cnfg.close()
+
 screen=pygame.display.set_mode([640, 480])
 #titlescreen(screen)
 pygame.mixer.music.load("res/music/LevelEditorBGM.ogg")

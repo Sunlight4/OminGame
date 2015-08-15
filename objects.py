@@ -1,4 +1,4 @@
-import pygame, math
+import pygame, math, os
 from vector import Vector
 
 class Object(pygame.sprite.Sprite): # Base class

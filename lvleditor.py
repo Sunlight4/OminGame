@@ -1,4 +1,5 @@
 import pygame
+import os
 from utils import *
 from objects import *
 from vector import Vector
@@ -9,7 +10,7 @@ pygame.display.set_caption("Omin: Level Editor")
 
 screen=pygame.display.set_mode([640, 480])
 #titlescreen(screen)
-pygame.mixer.music.load("music/LevelEditorBGM.ogg")
+pygame.mixer.music.load("res/music/LevelEditorBGM.ogg")
 pygame.mixer.music.play(-1)
 canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()
@@ -119,7 +120,13 @@ while run == 1:
             elif event.key == pygame.K_c:
                 classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall}
                 s=classes[choicebox(screen, classes.keys(), "Select a type of object:")]
-                i=enterbox(screen, "Enter image path:")
+                spritefls = []
+
+                for fl in os.listdir('res/sprites/'):
+                    if fl.startswith('.'):
+                        continue
+                    spritefls.append(fl)
+                i='res/sprites/'+choicebox(screen,spritefls,"Choose a sprite")
                 tool=make_tool_create(s, i)
             elif event.key==pygame.K_s:save(objects)
             elif event.key==pygame.K_p:
@@ -166,8 +173,20 @@ while run == 1:
                     objects.append([kind, d, groups])
             elif event.key==pygame.K_q:
                 tool=tool_quickedit
+            elif event.key==pygame.K_m:
+                musicfls = []
+
+                for fl in os.listdir('res/music/'):
+                    if fl.startswith('.'):
+                        continue
+                    musicfls.append(fl)
+                musicpath='res/music/'+choicebox(screen,musicfls,"Choose a music track:")
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load(musicpath)
+                pygame.mixer.music.play(-1)
             elif event.key==pygame.K_RSHIFT:
                 pass
+            
     screen.fill([0,0,0])
     screen.blit(canvas, [0,0])
 

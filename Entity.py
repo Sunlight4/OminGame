@@ -1,19 +1,13 @@
-import pygame,math
-
-class Entity:
-    def __init__(self,name,x,y,image,hp,maxhp,equip):
-        self.image = pygame.image.load(image)
-        self.name = name
-        self.path = image
-        self.hp = hp
-        self.maxl
-        self.x = x
-        self.y = y
-        self.dead = False
-        self.life = life
-        self.equip = equip
-    def onUpdate(self,screen):
-        screen.blit(self.image,[self.x,self.y])
-    def onDie(self):
-        self.dead = True
+import pygame,math,objects
+class Entity(objects.Object):
+    props={"name":"str", "x":"int", "y":"int", "mass":"int", "image":"str", "hp":"int", "maxhp":"int", "moves":"[]Move", "ai":"Ai"}
+    defs={"name":"Bob", "x":0, "y":0, "mass":50, "image":"Wall.png", "hp":1, "maxhp":1, "moves":[], "ai":None}
+    def __init__(self,name="Bob",x=0,y=0,mass=50,image="Wall.png",hp=1,maxhp=1,moves=[],ai=None):
+        self.name=name
+        self.hp=hp
+        self.maxhp=maxhp
+        self.moves=moves
+        self.ai=ai
+        super(Entity, self).__init__(x, y, image, mass)
+    
         

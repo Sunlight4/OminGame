@@ -1,11 +1,12 @@
 import pygame, main
 from utils import *
 from objects import *
+from Entity import Entity
 from vector import Vector
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode([640,480])
-classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall}
+classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall, "Entity":Entity}
 f_dict={"Gravity":Gravity}
 pygame.display.set_caption("Omin: Level Editor")
 canvas=pygame.Surface(screen.get_size())
@@ -16,9 +17,7 @@ musicpath = ''
 bgcolor = [0,0,0]
 
 #main.titlescreen(screen)
-pygame.mixer.music.load("music/LevelEditorBGM.ogg")
-pygame.mixer.music.set_volume(1)
-pygame.mixer.music.play(-1)
+
 print "Music on"
 sc=Scene("empty.txt")
 run=1
@@ -37,21 +36,35 @@ def tool_edit(x,y):
     for o in sc.updated.sprites():
         if o.rect.collidepoint([x, y]):
             attrs = []
-            for a in o.defs:
+            for a in o.defs.keys():
                 attrs.append(a)
             attr = choicebox(screen,attrs,"Choose attribute")
             val = enterbox(screen,"Set to:")
+            try:
+                p=o.props[a]
+                if p=="int":
+                    value=int(val)
+                if p=="str":
+                    value=val
+                if p=="Vector":
+                    x, y=val.split("..")
+                    x=int(x)
+                    y=int(y)
+                    value=Vector(x, y)
+                if p=="bool":
+                    if val.lower()=="true":
+                        value=True
+                    else:
+                        value=False
+            except:
+                msgbox(screen, "Couldn't do that. Sorry!")
+            
 
-            if type(val) == int:
-                val = int(val)
-            elif val.lower() == 'false' or val.lower() == 'true':
-                if val.lower() == 'true':
-                    val = True
-                else:
-                    val = Falses
-
-            o.__dict__[attr] = val
+            o.__dict__[attr] = value
 tool=tool_donothing
+pygame.mixer.music.load("res/music/LevelEditorBGM.ogg")
+pygame.mixer.music.set_volume(1)
+pygame.mixer.music.play(-1)
 while run:
     canvas.fill(bgcolor)
     sc.draw(canvas)
@@ -67,7 +80,7 @@ while run:
                 sc=Scene(path)
             elif event.key==pygame.K_c:
                 kind=classes[choicebox(screen, classes.keys(), "Select a type of object:")]
-                img=enterbox(screen, "Enter image path to load:")
+                img="res/sprites/"+enterbox(screen, "Enter image path to load:")+".png"
                 tool=make_tool_create(kind, img)
             elif event.key==pygame.K_x:
                 tool=tool_delete
@@ -78,14 +91,9 @@ while run:
                 if a=="Add":
                     kind=f_dict[choicebox(screen, f_dict.keys(), "Select a type of force:")]
                     props=kind.defs
-                    for prop in props.keys():
-                        change=choicebox(screen, ["Change", "OK"], prop+" is "+str(props[prop])+". OK or change?")=="Change"
-                        if change:
-                            new = eval(enterbox(screen, "Enter new value:"), globals(), locals())
-                            props[prop] = new
                     sc.forces.add(kind(**props))
             elif event.key==pygame.K_s:
-                levelname=enterbox(screen, "Enter level path to save as:")
+                levelname=enterbox(screen, "Enter level path to save as:")+".txt"
                 f=open(levelname, "w")
                 full=pygame.sprite.Group()
                 for g in [sc.rendered, sc.updated, sc.forces]:
@@ -112,9 +120,10 @@ while run:
                     pygame.display.flip()
                 print "Exited Level"
                 run=1
+                sc=oldsc
 
             elif event.key==pygame.K_m:
-                musicpath = enterbox(screen,"Set music path:")
+                musicpath = "res/music/"+enterbox(screen,"Set music path:")+".ogg"
                 pygame.mixer.music.stop()
                 pygame.mixer.music.load(musicpath)
                 pygame.mixer.music.play(-1)

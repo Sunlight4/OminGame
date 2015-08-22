@@ -136,6 +136,7 @@ class CircleWall(Wall):
     "Special class for circle walls. Simply changes the normal function to pushback based on the exact angle"
     def normal(self, angle):
         a=math.radians(angle) 
+        print Vector(math.cos(a), math.sin(a))
         return Vector(math.cos(a), math.sin(a))
 class SquareWall(CircleWall):
     "Special class for square walls. Rounds angle, then passes it to the circle normal function."
@@ -154,6 +155,7 @@ class SquareWall(CircleWall):
         return super(SquareWall, self).normal(a)
 class RightTriangleWall(CircleWall):
     def normal(self, angle):
+        a=angle
         if a<135:a=45
         if 135<=a<=225:
             a=180

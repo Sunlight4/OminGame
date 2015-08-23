@@ -2,9 +2,7 @@ import pygame
 from objects import *
 from vector import Vector
 class Scene(object):
-    rendered=pygame.sprite.Group()
-    updated=pygame.sprite.Group()
-    forces=pygame.sprite.Group()
+    
     def __init__(self, path):
         print "Loading level: "+path
         self.music = None
@@ -12,6 +10,12 @@ class Scene(object):
         self.bg = None
         pygame.mixer.music.stop()
         f=open(path).readlines()
+        self.rendered=pygame.sprite.Group()
+        self.rendered.name="rendered"
+        self.updated=pygame.sprite.Group()
+        self.updated.name="updated"
+        self.forces=pygame.sprite.Group()
+        self.forces.name="forces"
         for line in f:
             if line.startswith("//"):continue
             if line.startswith('.'):
@@ -44,12 +48,11 @@ class Scene(object):
             code=code[1:]
             code=setup+"("+",".join(code)+")"
             o=eval(code, globals(), locals())
-            
-            
             for group in groups:
                 try:exec "g = self."+group
                 except:
                     g=pygame.sprite.Group()
+                    g.name=group.strip()
                     exec "self."+group.strip()+" = g"
                 try:g.add(o)
                 except:g.append(o)

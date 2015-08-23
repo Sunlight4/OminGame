@@ -1,12 +1,12 @@
-import pygame, main
+import pygame, main, copy
 from utils import *
 from objects import *
-from Entity import Entity
+from entities import Entity, Player
 from vector import Vector
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode([640,480])
-classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall, "Entity":Entity}
+classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall, "Entity":Entity, "Player":Player}
 f_dict={"Gravity":Gravity}
 pygame.display.set_caption("Omin: Level Editor")
 canvas=pygame.Surface(screen.get_size())
@@ -21,6 +21,40 @@ bgcolor = [0,0,0]
 print "Music on"
 sc=Scene("empty.txt")
 run=1
+def represent(o, value, kind):
+    if kind=="str":
+        v="\""+str(value)+"\""
+    elif kind=="Vector":
+        v="Vector(%s, %s)" %(value.x, value.y)
+    elif kind=="image":
+        v="\""+o.path+"\""
+    else:
+        v=str(value)
+    return v
+def save(scene, f):
+    fle=open(f, "w")
+    g=pygame.sprite.Group()
+    g.name=None
+    for gro in [scene.rendered, scene.updated, scene.forces]:
+        for spr in gro.sprites():
+            spr.add(g)
+    for spr in g.sprites():
+        p=spr.props
+        for k in spr.props.keys():
+            exec "p[k]=represent(spr, spr."+k+", p[k])"
+        string=spr.__class__.__name__
+        for k in p.keys():
+            string+=" "+k+"="+p[k]
+        string+="##"
+        names=[]
+        for gro in spr.groups():
+            if gro.name==None:continue
+            names.append(gro.name)
+        string+=" ".join(names)
+        string+="\n"
+        fle.write(string)
+    fle.close()
+        
 def tool_donothing(*args):pass
 def make_tool_create(kind, img):
     def tool_create(x, y):
@@ -41,7 +75,7 @@ def tool_edit(x,y):
             attr = choicebox(screen,attrs,"Choose attribute")
             val = enterbox(screen,"Set to:")
             try:
-                p=o.props[a]
+                p=o.props[attr]
                 if p=="int":
                     value=int(val)
                 if p=="str":
@@ -60,7 +94,7 @@ def tool_edit(x,y):
                 msgbox(screen, "Couldn't do that. Sorry!")
             
 
-            o.__dict__[attr] = value
+            exec "o."+attr+"=value"
 tool=tool_donothing
 pygame.mixer.music.load("res/music/LevelEditorBGM.ogg")
 pygame.mixer.music.set_volume(1)
@@ -76,7 +110,7 @@ while run:
             tool(*pygame.mouse.get_pos())
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_l:
-                path=enterbox(screen, "Enter level path to load:")
+                path="level/"+enterbox(screen, "Enter level path to load:")+".txt"
                 sc=Scene(path)
             elif event.key==pygame.K_c:
                 kind=classes[choicebox(screen, classes.keys(), "Select a type of object:")]
@@ -93,18 +127,12 @@ while run:
                     props=kind.defs
                     sc.forces.add(kind(**props))
             elif event.key==pygame.K_s:
-                levelname=enterbox(screen, "Enter level path to save as:")+".txt"
-                f=open(levelname, "w")
-                full=pygame.sprite.Group()
-                for g in [sc.rendered, sc.updated, sc.forces]:
-                    for o in g.sprites():
-                        full.add(o)
-                for s in full.sprites():
-                    s.save(f)
-                f.close()
+                levelname="level/"+enterbox(screen, "Enter level path to save as:")+".txt"
+                save(sc, levelname)
                         
             elif event.key==pygame.K_p:
-                oldsc=sc
+                levelname="level/"+enterbox(screen, "Enter level path to save as:")+".txt"
+                save(sc, levelname)
                 run=1
                 while run == 1:
                     canvas.fill([0,0,0])
@@ -120,7 +148,7 @@ while run:
                     pygame.display.flip()
                 print "Exited Level"
                 run=1
-                sc=oldsc
+                sc=Scene(levelname)
 
             elif event.key==pygame.K_m:
                 musicpath = "res/music/"+enterbox(screen,"Set music path:")+".ogg"

@@ -1,0 +1,1 @@
+SquareWall image="res/sprites/dirt.png" bouncy=1 mass=10 y=192 x=96 fixed=False##rendered updated

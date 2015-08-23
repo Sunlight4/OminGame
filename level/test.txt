@@ -1,1 +1,3 @@
-SquareWall image="res/sprites/dirt.png" bouncy=1 mass=10 y=192 x=96 fixed=False##rendered updated
+SquareWall image="res/sprites/dirt.png" bouncy=1 mass=50 y=312 x=240 fixed=False##rendered updated
+SquareWall image=<Surface(24x24x24 SW)> bouncy=1 mass=50 y=312 x=216 fixed=False##rendered updated
+SquareWall image=<Surface(24x24x24 SW)> bouncy=1 mass=50 y=312 x=264 fixed=False##rendered updated

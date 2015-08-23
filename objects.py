@@ -11,7 +11,6 @@ class Object(pygame.sprite.Sprite): # Base class
         self.rect=self.image.get_rect()
         self.rect.left=x
         self.rect.top=y
-        self.path=image
         self.forces=[]
         self.fixed=fixed
         self.velocity=Vector(0,0)
@@ -31,8 +30,8 @@ class Object(pygame.sprite.Sprite): # Base class
         self.rect.top=self.pos.y-(self.rect.height/2.0)
     def addforce(self, v):
         self.forces.append(v)
-    def _x(self):return self.rect.left
-    def _y(self):return self.rect.top
+    def _x(self):return self.pos.x
+    def _y(self):return self.pos.y
     x=property(_x)
     y=property(_y)
 class AnimatedObject(Object): # Animated object!

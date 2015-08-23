@@ -21,13 +21,13 @@ bgcolor = [0,0,0]
 print "Music on"
 sc=Scene("empty.txt")
 run=1
-def represent(o, value, kind):
+def represent(value, kind):
     if kind=="str":
         v="\""+str(value)+"\""
     elif kind=="Vector":
         v="Vector(%s, %s)" %(value.x, value.y)
     elif kind=="image":
-        v="\""+o.path+"\""
+        v="\""+value.path+"\""
     else:
         v=str(value)
     return v
@@ -41,7 +41,7 @@ def save(scene, f):
     for spr in g.sprites():
         p=spr.props
         for k in spr.props.keys():
-            exec "p[k]=represent(spr, spr."+k+", p[k])"
+            exec "p[k]=represent(spr."+k+", p[k])"
         string=spr.__class__.__name__
         for k in p.keys():
             string+=" "+k+"="+p[k]

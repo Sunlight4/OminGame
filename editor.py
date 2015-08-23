@@ -21,15 +21,18 @@ bgcolor = [0,0,0]
 print "Music on"
 sc=Scene("empty.txt")
 run=1
-def represent(value, kind):
+def represent(spr, value, kind):
+    print "Saving property "+str(value)
     if kind=="str":
         v="\""+str(value)+"\""
     elif kind=="Vector":
         v="Vector(%s, %s)" %(value.x, value.y)
     elif kind=="image":
-        v="\""+value.path+"\""
+        print spr.path
+        v="\""+spr.path+"\""
     else:
         v=str(value)
+    print "Result was "+v
     return v
 def save(scene, f):
     fle=open(f, "w")
@@ -39,9 +42,10 @@ def save(scene, f):
         for spr in gro.sprites():
             spr.add(g)
     for spr in g.sprites():
-        p=spr.props
+        print "Saving sprite"
+        p=spr.props.copy()
         for k in spr.props.keys():
-            exec "p[k]=represent(spr."+k+", p[k])"
+            exec "p[k]=represent(spr, spr."+k+", p[k])"
         string=spr.__class__.__name__
         for k in p.keys():
             string+=" "+k+"="+p[k]
@@ -62,6 +66,7 @@ def make_tool_create(kind, img):
         o=kind(image=img, x=x//24*24, y=y//24*24)
         sc.rendered.add(o)
         sc.updated.add(o)
+        del o
     return tool_create
 def tool_delete(x, y):
     for o in sc.updated.sprites():

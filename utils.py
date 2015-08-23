@@ -219,6 +219,53 @@ def enterbox(screen,title):
         pygame.display.flip()
     return txt
 
+def passcodebox(screen,title):
+    okbutton = Button(text("OK",50,[255,255,0]),[320,360],True)
+    title = text(text=title,color=[200,0,0],size=50)
+    txt = ''
+    run = True
+    canvas=pygame.Surface(screen.get_size())
+    canvas=canvas.convert()
+    canvas.fill([0,0,0])
+    chars = ['a','b','c','d','e','f','g','h','i',
+             'j','k','l','m','n','o','p','q','r',
+             's','t','u','v','w','x','y','z','-'
+             '.','/','_',',','(',')','"',
+             '1','2','3','4','5','6','7','8','9','0']
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                raise SystemExit
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if okbutton.hover():
+                    run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    if not txt == '':
+                        txt = txt[:len(txt)-1]
+                elif event.key == pygame.K_SPACE:
+                    txt += ' '
+                elif event.key < 256:
+                    key = event.key
+
+                    if chr(key) in chars:
+                        if pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                            txt+=chr(key).capitalize()
+                        else:
+                            txt+=chr(key)
+                if event.key == pygame.K_RETURN:
+                    run = False
+
+        canvas.fill([0,0,0])
+        okbutton.render(canvas)
+        blitcenter(title,[320,128],canvas)
+        blitcenter(text("".join(["*" for char in txt]),50,[255,255,255]),[320,240],canvas)
+        screen.fill([0,0,0])
+        screen.blit(canvas, [0,0])
+        pygame.display.flip()
+    return txt
+
 def choicebox(screen,_choices,message): # Return choice
     choices = []
     canvas=pygame.Surface(screen.get_size())

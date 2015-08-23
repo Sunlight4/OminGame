@@ -16,6 +16,7 @@ class Object(pygame.sprite.Sprite): # Base class
         self.velocity=Vector(0,0)
         self.pos=Vector(x+(self.rect.width/2.0), y+(self.rect.height/2.0))
         self.mass=mass
+        self.path=image
     def update(self, args):
         "Check our forces, and change velocity accordingly, then change our position"
         super(Object, self).update()

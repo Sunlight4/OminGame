@@ -1,8 +1,8 @@
-import pygame, utils, os
+import pygame, utils, os, random
 from utils import *
-
+pygame.init()
 pygame.mixer.init()
-
+silliness=0
 class GameInstance:
     def __init__(self):
         self.level = 0
@@ -13,7 +13,8 @@ class GameInstance:
         self.perception = 0
 
     def startGame(self,screen):
-        titlescreen(screen)
+        s=titlescreen(screen)
+        if s=="silly":return s
         msgbox(screen,"Omin Origins","Start")
         runlevel(screen,'level/origins/level1.txt')
 
@@ -49,34 +50,53 @@ def runlevel(screen,path,game=GameInstance()):
         return
     if run == -1:
         pass # Go to pause menu
-def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
+def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
     run = 1
     # 1 for mainloop
     # 0 for quit
     # -1 for continue
-
-
+    images=os.listdir("res/sprites/")
+    if silliness:musicpath="res/music/sillymusic.ogg"
     pygame.mixer.init()
-    pygame.mixer.music.load("music/TitleScreen.ogg")
+    pygame.mixer.music.load(musicpath)
     pygame.mixer.music.set_volume(1)
     pygame.mixer.music.play(-1)
-
-    pygame.mixer.music.load(musicpath)
-    pygame.mixer.music.play(-1)
-
+    
     logo = pygame.image.load('logo.png')
-
+    
     start = Button(text("Start",40,[128,32,2]),[320,320],True)
     new = Button(text("New",40,[128,32,2]),[320,360],True)
     load = Button(text("Continue",40,[128,32,2]),[320,400],True)
+    developer = Button(text("Developers Only",40,[128,32,2]),[320,440],True)
     canvas=pygame.Surface(screen.get_size())
     canvas=canvas.convert()
     canvas.fill([0,0,0])
+    imgs=[]
     while run == 1:
+        
+            
         canvas.fill([0,0,0])
         new.render(canvas)
         load.render(canvas)
+        developer.render(canvas)
+        
+                
         blitcenter(logo,[320,128],canvas)
+        if silliness:
+            if random.random()<=0.5:
+                imgs.append([random.randrange(640), 0, pygame.image.load("res/sprites/"+random.choice(images)), 0])
+            nimgs=[]
+            for img in imgs:
+                x=img[0]
+                y=img[1]
+                image=img[2]
+                speed=img[3]
+                canvas.blit(image, [x, y])
+                y+=speed
+                speed+=1
+                if y<=640:
+                    nimgs.append([x, y, image, speed])
+            imgs=nimgs
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -86,19 +106,11 @@ def titlescreen(screen,musicpath="music/TitleScreen.ogg"):
                     usrname = utils.enterbox(screen,"Name:")
 
                     if os.path.isfile('users/'+usrname+'.txt'):
-                        msgbox("Name is taken.")
+                        msgbox(screen, "Name is taken.")
                     else:
                         fl = open('users/'+usrname+'.txt','w+')
-
-                        fl.write('''level=level/origins/level1.txt
-hp=0
-sp=0
-inv=[]
-stealth=0
-perception=0
-''')
-                        # Indentation much?
-
+                        #Progress:Ch1()HP/SPD/XP/Skills/Moves/Items[]Next Character
+                        fl.write("L1:LIONEL()8/1/0//Heal,WoodenSword,WoodenShield/")
                         fl.close()
                 if load.hover():
                     namesfls = os.listdir('users/')
@@ -110,7 +122,18 @@ perception=0
                         names.append(i.strip('.txt'))
 
                     utils.choicebox(screen,names,"Choose a save file")
-                    
+                if developer.hover():
+                    #PASSCODE IS VSurvival
+                    passcode = passcodebox(screen,"Password:")
+                    if passcode=="VSurvival":
+                        choice=choicebox(screen,["Silly Mode", "Level Editor"],"Developer Action?")
+                        if choice=="Level Editor":
+                            pygame.quit()
+                            import editor
+                        elif choice=="Silly Mode":
+                            return "silly"
+                    else:
+                        msgbox(screen,"Incorrect.")
 
 
         screen.fill([0,0,0])
@@ -124,14 +147,25 @@ perception=0
             load = Button(text("Continue",45,[200,32,2]),[320,400],True)
         else:
             load = Button(text("Continue",40,[128,32,2]),[320,400],True)
+        if developer.hover():
+            developer = Button(text("Developers Only",45,[200,32,2]),[320,440],True)
+        else:
+            developer = Button(text("Developers Only",40,[128,32,2]),[320,440],True)
         
         pygame.display.flip()
     pygame.mixer.music.stop()
 
 def main(screen):
     game = GameInstance()
-    game.startGame(screen)
-
+    s=game.startGame(screen)
+    if s=="silly":return s
+if __name__=="__main__":
+    screen=pygame.display.set_mode([640, 480])
+    result=main(screen)
+    if result=="silly":
+        silliness=1
+        main(screen)
+    
         
 
 

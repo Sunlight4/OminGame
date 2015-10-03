@@ -3,6 +3,7 @@ from utils import *
 pygame.init()
 pygame.mixer.init()
 silliness=0
+admin=0
 class GameInstance:
     def __init__(self):
         self.level = 0
@@ -67,7 +68,7 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
     start = Button(text("Start",40,[128,32,2]),[320,320],True)
     new = Button(text("New",40,[128,32,2]),[320,360],True)
     load = Button(text("Continue",40,[128,32,2]),[320,400],True)
-    developer = Button(text("Developers Only",40,[128,32,2]),[320,440],True)
+    developer = Button(text("Extras",40,[128,32,2]),[320,440],True)
     canvas=pygame.Surface(screen.get_size())
     canvas=canvas.convert()
     canvas.fill([0,0,0])
@@ -105,6 +106,10 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
                 if new.hover():
                     usrname = utils.enterbox(screen,"Name:")
 
+                    if usrname == 'OminAdmin108':
+                        msgbox(screen, "Welcome, Admin.")
+                        admin=1
+
                     if os.path.isfile('users/'+usrname+'.txt'):
                         msgbox(screen, "Name is taken.")
                     else:
@@ -126,12 +131,14 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
                     #PASSCODE IS VSurvival
                     passcode = passcodebox(screen,"Password:")
                     if passcode=="VSurvival":
-                        choice=choicebox(screen,["Silly Mode", "Level Editor"],"Developer Action?")
+                        choice=choicebox(screen,["Silly Mode", "Level Editor","Crash Test"],"Developer Action?")
                         if choice=="Level Editor":
                             pygame.quit()
                             import editor
                         elif choice=="Silly Mode":
                             return "silly"
+                        elif choice=="Crash Test":
+                            raise Exception
                     else:
                         msgbox(screen,"Incorrect.")
 

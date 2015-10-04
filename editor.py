@@ -1,12 +1,13 @@
 import pygame, main, copy
 from utils import *
 from objects import *
-from entities import Entity, Player
+from entity import Character
 from vector import Vector
+from collections import defaultdict
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode([640,480])
-classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall, "Entity":Entity, "Player":Player}
+classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall}
 f_dict={"Gravity":Gravity}
 pygame.display.set_caption("Omin: Level Editor")
 canvas=pygame.Surface(screen.get_size())
@@ -71,6 +72,18 @@ def make_tool_create(kind, img):
 def tool_delete(x, y):
     for o in sc.updated.sprites():
         if o.rect.collidepoint([x, y]):o.kill()
+def tool_player(x,y):
+    xpos=x//24*24
+    ypos=y//24*24
+    img="res/sprites/testplayer.png"
+    #TODO:Editable skills
+    skills=defaultdict(fighting=2, agility=2, charisma=2, healing=2, fortitude=2)
+    moves=[]
+    hp=10
+    o=Character(skills=skills, moves=moves, hp=hp, x=xpos, y=ypos, img=img)
+    sc.rendered.add(o)
+    sc.updated.add(o)
+    del o
 def tool_edit(x,y):
     for o in sc.updated.sprites():
         if o.rect.collidepoint([x, y]):
@@ -121,6 +134,8 @@ while run:
                 kind=classes[choicebox(screen, classes.keys(), "Select a type of object:")]
                 img="res/sprites/"+enterbox(screen, "Enter image path to load:")+".png"
                 tool=make_tool_create(kind, img)
+            elif event.key==pygame.K_SPACE:
+                tool=tool_player
             elif event.key==pygame.K_x:
                 tool=tool_delete
             elif event.key==pygame.K_f:

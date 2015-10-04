@@ -2,7 +2,7 @@ import pygame, utils, os, random
 from utils import *
 pygame.init()
 pygame.mixer.init()
-silliness=0
+silliness=False
 admin=0
 class GameInstance:
     def __init__(self):
@@ -73,6 +73,7 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
     canvas=canvas.convert()
     canvas.fill([0,0,0])
     imgs=[]
+    print "Initializing Main Loop"
     while run == 1:
         
             
@@ -106,8 +107,6 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
                 if new.hover():
                     while 1:
                         usrname = utils.enterbox(screen,"Name:")
-
-<<<<<<< Updated upstream
                     if usrname == 'OminAdmin108':
                         msgbox(screen, "Welcome, Admin.")
                         admin=1
@@ -119,14 +118,12 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
                         #Progress:Ch1()HP/SPD/XP/Skills/Moves/Items[]Next Character
                         fl.write("L1:LIONEL()8/1/0//Heal,WoodenSword,WoodenShield/")
                         fl.close()
-=======
                         if os.path.isfile('users/'+usrname+'.txt'):
                             msgbox(screen, "Name is taken.")
                             continue
                         cls = choicebox(screen,["Soldier:A powerful fighter","Scout:Specializes in exploration","Scholar:Well-learned character", "Sage:Magic specialist","Scoundrel:Rogue who lives by wits","Speaker:A diplomatic character"],"Choose a character type").split(":")[0]
                         if choicebox(screen,["Yes","Cancel"],cls+" named "+usrname+"?")=="Yes":break
                     #TODO:Save stuff
->>>>>>> Stashed changes
                 if load.hover():
                     namesfls = os.listdir('users/')
                     names = []
@@ -179,6 +176,7 @@ def main(screen):
 if __name__=="__main__":
     screen=pygame.display.set_mode([640, 480])
     result=main(screen)
+    print "Display On"
     if result=="silly":
         silliness=1
         main(screen)

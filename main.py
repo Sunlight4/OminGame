@@ -175,8 +175,8 @@ def main(screen):
     if s=="silly":return s
 if __name__=="__main__":
     screen=pygame.display.set_mode([640, 480])
-    if isClientOutdated():
-        msgbox(screen,"Client is outdated.")
+    #if isClientOutdated():
+        #msgbox(screen,"Client is outdated.")
     result=main(screen)
     if result=="silly":
         silliness=1

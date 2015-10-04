@@ -1,5 +1,6 @@
 import pygame, utils, os, random
 from utils import *
+from autoupdate import *
 pygame.init()
 pygame.mixer.init()
 silliness=False
@@ -190,6 +191,8 @@ def main(screen):
     if s=="silly":return s
 if __name__=="__main__":
     screen=pygame.display.set_mode([640, 480])
+    if isClientOutdated():
+        msgbox("Client is outdated.")
     result=main(screen)
     print "Display On"
     if result=="silly":

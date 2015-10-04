@@ -109,8 +109,15 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
 
 <<<<<<< Updated upstream
                     if usrname == 'OminAdmin108':
-                        msgbox(screen, "Welcome, Admin.")
-                        admin=1
+                        msgbox(screen,"You're an developer!?!", "Uh, yeah...")
+                        pswd = passcodebox(screen,"Prove it.")
+
+                        if pswd == "VSurvival":
+                            msgbox(screen, "Access Granted")
+                            admin=1
+                        else:
+                            msgbox(screen, "Go away.")
+                            break
 
                     if os.path.isfile('users/'+usrname+'.txt'):
                         msgbox(screen, "Name is taken.")

@@ -1,13 +1,13 @@
 import pygame, main, copy
 from utils import *
 from objects import *
-from entity import Character
+from entity import Entity
 from vector import Vector
 from collections import defaultdict
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode([640,480])
-classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall}
+classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall, "Entity":Entity}
 f_dict={"Gravity":Gravity}
 pygame.display.set_caption("Omin: Level Editor")
 canvas=pygame.Surface(screen.get_size())

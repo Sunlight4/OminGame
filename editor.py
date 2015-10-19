@@ -69,6 +69,14 @@ def make_tool_create(kind, img):
         sc.updated.add(o)
         del o
     return tool_create
+def make_tool_entity(kind, thing):
+    def tool_create(x, y):
+        global sc
+        o=kind(image=img, x=x//24*24, y=y//24*24)
+        sc.rendered.add(o)
+        sc.updated.add(o)
+        del o
+    return tool_create
 def tool_delete(x, y):
     for o in sc.updated.sprites():
         if o.rect.collidepoint([x, y]):o.kill()
@@ -134,6 +142,9 @@ while run:
                 kind=classes[choicebox(screen, classes.keys(), "Select a type of object:")]
                 img="res/sprites/"+enterbox(screen, "Enter image path to load:")+".png"
                 tool=make_tool_create(kind, img)
+            elif event.key==pygame.K_e:
+                x=enterbox(screen, "What kind of entity?")
+                tool=make_tool_create(kind, x)
             elif event.key==pygame.K_SPACE:
                 tool=tool_player
             elif event.key==pygame.K_x:

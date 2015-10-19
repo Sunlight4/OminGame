@@ -1,7 +1,7 @@
 import collections
 import objects,utils
 class Entity(objects.Object):
-    skills=defaultdict(int)
+    skills=collections.defaultdict(int)
     hp=0
     moves=[]
     def __init__(self, x, y, who=""):

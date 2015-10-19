@@ -1,1 +1,0 @@
-Wall _Sprite__g={<Group(1 sprites)>: 0, <Group(1 sprites)>: 0, <Group(1 sprites)>: 0} image=<Surface(24x24x32 SW)> mask=<pygame.mask.Mask object at 0x254100> pos=<180.0,84.0> bouncy=1 mass=50 forces=[] velocity=<0,0> fixed=False rect=<rect(168, 72, 24, 24)>

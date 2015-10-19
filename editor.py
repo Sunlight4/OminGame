@@ -36,7 +36,7 @@ def represent(spr, value, kind):
     print "Result was "+v
     return v
 def save(scene, f):
-    fle=open(f, "w")
+    fle=open("level/"+f, "w")
     g=pygame.sprite.Group()
     g.name=None
     for gro in [scene.rendered, scene.updated, scene.forces]:

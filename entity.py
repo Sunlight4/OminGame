@@ -1,13 +1,17 @@
 import collections
 import objects,utils
-class Character(objects.Object):
-    skills=collections.defaultdict(int)
-    moves=[]
+class Entity(objects.Object):
+    skills=defaultdict(int)
     hp=0
-    props={"skills":"[]Skill","moves":"[]Move","hp":"int","x":"int", "y":"int", "image":"image", "mass":"int", "fixed":"bool"}
-    defs={"skills":collections.defaultdict(int),"moves":[], "hp":0, "x":0, "y":0, "image":"Wall.png", "mass":50, "fixed":False}
-    def __init__(self, skills, moves, hp, *args, **kw):
-        self.skills=skills
-        self.moves=moves
-        self.hp=hp
-        super(Character, self).__init__(*args, **kw)
+    moves=[]
+    def __init__(self, x, y, who=""):
+        f=file("entities/"+who+".txt", "r")
+        setup=f.read().split(',')
+        for command in setup:
+            key=command.split(':')
+            if key[0]=="HP":
+                self.hp=int(key[1])
+            if key[0]=="IMG":
+                image="res/sprites/"+key[1]+".png"
+        super(Entity, self).__init__(x=x, y=y, image=image)
+        

@@ -105,13 +105,9 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
                 raise SystemExit
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if new.hover():
-<<<<<<< HEAD
                     while 1:
                         usrname = utils.enterbox(screen,"Name:")
-=======
                     usrname = utils.enterbox(screen,"Name:")
-
->>>>>>> origin/master
                     if usrname == 'OminAdmin108':
                         msgbox(screen,"You're an developer!?!", "Uh, yeah...")
                         pswd = passcodebox(screen,"Prove it.")
@@ -127,18 +123,7 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
                         msgbox(screen, "Name is taken.")
                     else:
                         fl = open('users/'+usrname+'.txt','w+')
-                        #Progress:Ch1()HP/SPD/XP/Skills/Moves/Items[]Next Character
-                        fl.write("L1:LIONEL()8/1/0//Heal,WoodenSword,WoodenShield/")
-                        fl.close()
-<<<<<<< HEAD
-                        if os.path.isfile('users/'+usrname+'.txt'):
-                            msgbox(screen, "Name is taken.")
-                            continue
-                        cls = choicebox(screen,["Soldier:A powerful fighter","Scout:Specializes in exploration","Scholar:Well-learned character", "Sage:Magic specialist","Scoundrel:Rogue who lives by wits","Speaker:A diplomatic character"],"Choose a character type").split(":")[0]
-                        if choicebox(screen,["Yes","Cancel"],cls+" named "+usrname+"?")=="Yes":break
                     #TODO:Save stuff
-=======
->>>>>>> origin/master
                 if load.hover():
                     namesfls = os.listdir('users/')
                     names = []

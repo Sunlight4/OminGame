@@ -1,8 +1,9 @@
 import pygame, utils, os, random
 from utils import *
+from autoupdate import *
 pygame.init()
 pygame.mixer.init()
-silliness=False
+silliness=0
 admin=0
 class GameInstance:
     def __init__(self):
@@ -73,7 +74,6 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
     canvas=canvas.convert()
     canvas.fill([0,0,0])
     imgs=[]
-    print "Initializing Main Loop"
     while run == 1:
         
             
@@ -105,8 +105,11 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
                 raise SystemExit
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if new.hover():
+<<<<<<< HEAD
                     while 1:
                         usrname = utils.enterbox(screen,"Name:")
+=======
+>>>>>>> origin/master
                     usrname = utils.enterbox(screen,"Name:")
                     if usrname == 'OminAdmin108':
                         msgbox(screen,"You're an developer!?!", "Uh, yeah...")
@@ -123,7 +126,13 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
                         msgbox(screen, "Name is taken.")
                     else:
                         fl = open('users/'+usrname+'.txt','w+')
+<<<<<<< HEAD
                     #TODO:Save stuff
+=======
+                        #Progress:Ch1()HP/SPD/XP/Skills/Moves/Items[]Next Character
+                        fl.write("L1:LIONEL()8/1/0//Heal,WoodenSword,WoodenShield/")
+                        fl.close()
+>>>>>>> origin/master
                 if load.hover():
                     namesfls = os.listdir('users/')
                     names = []
@@ -175,8 +184,9 @@ def main(screen):
     if s=="silly":return s
 if __name__=="__main__":
     screen=pygame.display.set_mode([640, 480])
+    #if isClientOutdated():
+        #msgbox(screen,"Client is outdated.")
     result=main(screen)
-    print "Display On"
     if result=="silly":
         silliness=1
         main(screen)

@@ -1,0 +1,2 @@
+1.0dev
+daily=None

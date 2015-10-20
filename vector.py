@@ -18,7 +18,7 @@ class Vector(object):
     def normalize(self):
         if self.magnitude==0:return Vector(0,0)
         return Vector(self.x/self.magnitude, self.y/self.magnitude)
-    def truncate(maximum):
+    def truncate(self,maximum):
         if self.magnitude>maximum:
             return self.normalize()*maximum
         else:

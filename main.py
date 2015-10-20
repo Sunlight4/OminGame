@@ -59,9 +59,9 @@ def titlescreen(screen,musicpath="res/music/TitleScreen.ogg"):
     images=os.listdir("res/sprites/")
     if silliness:musicpath="res/music/sillymusic.ogg"
     pygame.mixer.init()
-    pygame.mixer.music.load(musicpath)
-    pygame.mixer.music.set_volume(1)
-    pygame.mixer.music.play(-1)
+    #pygame.mixer.music.load(musicpath)
+    #pygame.mixer.music.set_volume(1)
+    #pygame.mixer.music.play(-1)
     
     logo = pygame.image.load('logo.png')
     

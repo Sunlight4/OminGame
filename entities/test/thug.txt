@@ -1,1 +1,1 @@
-HP:24,IMG:TEST_thug
+HP:24,IMG:TEST_thug,MOVE:walk,AI:followcursorai

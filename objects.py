@@ -4,6 +4,7 @@ from vector import Vector
 class Object(pygame.sprite.Sprite): # Base class
     props={"x":"int", "y":"int", "image":"image", "mass":"int", "fixed":"bool"}
     defs={"x":0, "y":0, "image":"Wall.png", "mass":50, "fixed":False}
+    grounded=0
     def __init__(self, x=0, y=0, image="Wall.png", mass=50, fixed=False, *args):
         "Create an object with specified x, y, image, and mass. Calculate rect and mask for later, and make pos and velocity vectors"
         super(Object, self).__init__(*args)
@@ -20,6 +21,7 @@ class Object(pygame.sprite.Sprite): # Base class
     def update(self, args):
         "Check our forces, and change velocity accordingly, then change our position"
         super(Object, self).update()
+        grounded=0
         if not self.fixed:
             total_force=Vector(0,0)
             for f in self.forces:total_force+=f
@@ -79,39 +81,39 @@ class AnimatedObject(Object): # Animated object!
     
     
 class Wall(Object):
-    props={"bouncy":"int", "x":"int", "y":"int", "image":"image", "mass":"int", "fixed":"bool"}
-    defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":True, "bouncy":1}
-    def __init__(self, bouncy=1, **kw):
+    props={"bouncy":"int", "x":"int", "y":"int", "image":"image", "mass":"int", "fixed":"bool", "friction":"int"}
+    defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":True, "bouncy":0.5, "friction":0.5}
+    def __init__(self, bouncy=0.5, friction=0.5, **kw):
         "Create a wall with specified bounciness, rotated by the given amount of degrees"
         self.bouncy=bouncy
+        self.friction=friction
         super(Wall, self).__init__(**kw)
     def update(self, args):
         "Handle wall-object collisions: use our normal function, then move the object out of us, then do bounciness pushback"
         #TODO:Bounciness
         for spr in pygame.sprite.spritecollide(self, args["updated"], False):
             if isinstance(spr, Wall):continue
-            print type(spr)
+            
+            spr.addforce((-spr.velocity)*self.friction)
             #get normal force
             angle=math.degrees((spr.pos-self.pos).direction)
             normal=self.normal((angle) % 360)
             a=(-normal).angle(spr.velocity)
+            
             mN = math.cos(a) * spr.velocity.magnitude * self.bouncy * spr.mass
             spr.addforce(normal*mN)
-            print mN
+            
             opos=spr.pos
-            #move the object so it isn't penetrating me
-            while pygame.sprite.collide_mask(self, spr):
+            
+            #enforce non-penetration constant
+            while pygame.sprite.collide_rect(self, spr):
                 spr.pos+=normal
-                spr.rect.left=spr.pos.x-(spr.rect.width/2.0)
-                spr.rect.top=spr.pos.y-(spr.rect.height/2.0)
-            spr.pos+=(normal/2.0)
-            spr.rect.left=spr.pos.x-(spr.rect.width/2.0)
-            spr.rect.top=spr.pos.y-(spr.rect.height/2.0)
-            diff=spr.pos-opos
-            spr.pos=opos
-            spr.rect.left=spr.pos.x-(spr.rect.width/2.0)
-            spr.rect.top=spr.pos.y-(spr.rect.height/2.0)
-            spr.addforce(diff*spr.mass)
+                
+                
+                spr.rect.left=spr.pos.x-(self.rect.width/2.0)
+                spr.rect.top=spr.pos.y-(self.rect.height/2.0)
+            
+            spr.grounded=1
             #TODO:fix this
             
     def normal(self, angle):
@@ -121,7 +123,7 @@ class CircleWall(Wall):
     "Special class for circle walls. Simply changes the normal function to pushback based on the exact angle"
     def normal(self, angle):
         a=math.radians(angle) 
-        print Vector(math.cos(a), math.sin(a))
+        
         return Vector(math.cos(a), math.sin(a))
 class SquareWall(CircleWall):
     "Special class for square walls. Rounds angle, then passes it to the circle normal function."
@@ -158,10 +160,14 @@ class Gravity(pygame.sprite.Sprite):
     def update(self, args):
         for spr in args["updated"].sprites():
             spr.addforce(self.strength*spr.mass)
-    
-            
-        
-        
-        
+class RightPushForce(pygame.sprite.Sprite):
+    props={"strength":"Vector"}
+    defs={"strength":Vector(1,0)}
+    def __init__(self, strength=None):
+        super(RightPushForce, self).__init__()
+        self.strength=strength
+    def update(self, args):
+        for spr in args["updated"].sprites():
+            spr.addforce(self.strength*spr.mass)
         
         

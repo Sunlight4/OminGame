@@ -7,8 +7,8 @@ from collections import defaultdict
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode([640,480])
-classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall, "Entity":Entity}
-f_dict={"Gravity":Gravity}
+classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall}
+f_dict={"Gravity":Gravity,"Test Force":RightPushForce}
 pygame.display.set_caption("Omin: Level Editor")
 canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()
@@ -36,7 +36,7 @@ def represent(spr, value, kind):
     print "Result was "+v
     return v
 def save(scene, f):
-    fle=open("level/"+f, "w")
+    fle=open(f, "w+")
     g=pygame.sprite.Group()
     g.name=None
     for gro in [scene.rendered, scene.updated, scene.forces]:
@@ -69,10 +69,10 @@ def make_tool_create(kind, img):
         sc.updated.add(o)
         del o
     return tool_create
-def make_tool_entity(kind, thing):
+def make_tool_entity(thing):
     def tool_create(x, y):
         global sc
-        o=kind(image=img, x=x//24*24, y=y//24*24)
+        o=Entity(x=x//24*24, y=y//24*24, who=thing)
         sc.rendered.add(o)
         sc.updated.add(o)
         del o
@@ -122,9 +122,9 @@ def tool_edit(x,y):
 
             exec "o."+attr+"=value"
 tool=tool_donothing
-pygame.mixer.music.load("res/music/LevelEditorBGM.ogg")
-pygame.mixer.music.set_volume(1)
-pygame.mixer.music.play(-1)
+#pygame.mixer.music.load("res/music/LevelEditorBGM.ogg")
+#pygame.mixer.music.set_volume(1)
+#pygame.mixer.music.play(-1)
 while run:
     canvas.fill(bgcolor)
     sc.draw(canvas)
@@ -144,9 +144,7 @@ while run:
                 tool=make_tool_create(kind, img)
             elif event.key==pygame.K_e:
                 x=enterbox(screen, "What kind of entity?")
-                tool=make_tool_create(kind, x)
-            elif event.key==pygame.K_SPACE:
-                tool=tool_player
+                tool=make_tool_entity(x)
             elif event.key==pygame.K_x:
                 tool=tool_delete
             elif event.key==pygame.K_f:
@@ -180,6 +178,22 @@ while run:
                 print "Exited Level"
                 run=1
                 sc=Scene(levelname)
+            elif event.key==pygame.K_SPACE:
+                run=1
+                while run == 1:
+                    canvas.fill([0,0,0])
+                    events=pygame.event.get()
+                    for event in events:
+                        if event.type==pygame.KEYDOWN:
+                            if event.key == pygame.K_ESCAPE:run=0
+
+                    sc.update(events)
+                    sc.draw(canvas)
+                    screen.fill([0,0,0])
+                    screen.blit(canvas, [0,0])
+                    pygame.display.flip()
+                print "Exited Level"
+                run=1
 
             elif event.key==pygame.K_m:
                 musicpath = "res/music/"+enterbox(screen,"Set music path:")+".ogg"
@@ -194,8 +208,6 @@ while run:
                 sc.rgb_bg = [r,g,b]
 
                 sc=oldsc
-            elif event.key == pygame.K_e:
-                tool = tool_edit
 
                 
     screen.fill(bgcolor)

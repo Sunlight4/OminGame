@@ -1,0 +1,1 @@
+HP:1,IMG:ball,MOVE:basic/jump,AI:test/geojumper

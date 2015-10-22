@@ -3,12 +3,13 @@ from utils import *
 from objects import *
 from entity import Entity
 from vector import Vector
+import obj_repo
 from collections import defaultdict
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode([640,480])
 classes={"Object":Object, "Wall":Wall, "CircleWall":CircleWall, "SquareWall":SquareWall, "RightTriangleWall":RightTriangleWall}
-f_dict={"Gravity":Gravity,"Test Force":RightPushForce}
+f_dict={"Gravity":Gravity}
 pygame.display.set_caption("Omin: Level Editor")
 canvas=pygame.Surface(screen.get_size())
 canvas=canvas.convert()
@@ -59,6 +60,7 @@ def save(scene, f):
         string+="\n"
         fle.write(string)
     fle.close()
+def save(*args):pass
         
 def tool_donothing(*args):pass
 def make_tool_create(kind, img):
@@ -208,6 +210,16 @@ while run:
                 sc.rgb_bg = [r,g,b]
 
                 sc=oldsc
+            elif event.key==pygame.K_z:
+                data=obj_repo.repo[enterbox(screen, "What kind of object?")]
+                kind=data[0]
+                is_force=data[1]
+                if is_force:
+                    props=kind.defs
+                    sc.forces.add(kind(**props))
+                else:
+                    img="res/sprites/"+enterbox(screen, "Enter image path to load:")+".png"
+                    tool=make_tool_create(kind, img)
 
                 
     screen.fill(bgcolor)

@@ -4,7 +4,7 @@ from vector import Vector
 class Object(pygame.sprite.Sprite): # Base class
     props={"x":"int", "y":"int", "image":"image", "mass":"int", "fixed":"bool"}
     defs={"x":0, "y":0, "image":"Wall.png", "mass":50, "fixed":False}
-    grounded=0
+    grounded=None
     def __init__(self, x=0, y=0, image="Wall.png", mass=50, fixed=False, *args):
         "Create an object with specified x, y, image, and mass. Calculate rect and mask for later, and make pos and velocity vectors"
         super(Object, self).__init__(*args)
@@ -21,7 +21,7 @@ class Object(pygame.sprite.Sprite): # Base class
     def update(self, args):
         "Check our forces, and change velocity accordingly, then change our position"
         super(Object, self).update()
-        grounded=0
+        grounded=None
         if not self.fixed:
             total_force=Vector(0,0)
             for f in self.forces:total_force+=f
@@ -82,8 +82,8 @@ class AnimatedObject(Object): # Animated object!
     
 class Wall(Object):
     props={"bouncy":"int", "x":"int", "y":"int", "image":"image", "mass":"int", "fixed":"bool", "friction":"int"}
-    defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":True, "bouncy":0.5, "friction":0.5}
-    def __init__(self, bouncy=0.5, friction=0.5, **kw):
+    defs={"x":0, "y":0, "image":"Wall.png", "mass":0, "fixed":True, "bouncy":1, "friction":0.5}
+    def __init__(self, bouncy=1, friction=0.5, **kw):
         "Create a wall with specified bounciness, rotated by the given amount of degrees"
         self.bouncy=bouncy
         self.friction=friction
@@ -99,7 +99,6 @@ class Wall(Object):
             angle=math.degrees((spr.pos-self.pos).direction)
             normal=self.normal((angle) % 360)
             a=(-normal).angle(spr.velocity)
-            
             mN = math.cos(a) * spr.velocity.magnitude * self.bouncy * spr.mass
             spr.addforce(normal*mN)
             
@@ -113,12 +112,13 @@ class Wall(Object):
                 spr.rect.left=spr.pos.x-(self.rect.width/2.0)
                 spr.rect.top=spr.pos.y-(self.rect.height/2.0)
             
-            spr.grounded=1
+            spr.grounded=self
             #TODO:fix this
             
     def normal(self, angle):
         "Default normal function: simply return up vector"
         return Vector(0, -1)
+
 class CircleWall(Wall):
     "Special class for circle walls. Simply changes the normal function to pushback based on the exact angle"
     def normal(self, angle):
@@ -142,7 +142,7 @@ class SquareWall(CircleWall):
         return super(SquareWall, self).normal(a)
 class RightTriangleWall(CircleWall):
     def normal(self, angle):
-        a=angle
+        a=(angle+90)%360
         if a<135:a=45
         if 135<=a<=225:
             a=180
@@ -156,15 +156,6 @@ class Gravity(pygame.sprite.Sprite):
     defs={"strength":Vector(0, 1)}
     def __init__(self, strength=None):
         super(Gravity, self).__init__()
-        self.strength=strength
-    def update(self, args):
-        for spr in args["updated"].sprites():
-            spr.addforce(self.strength*spr.mass)
-class RightPushForce(pygame.sprite.Sprite):
-    props={"strength":"Vector"}
-    defs={"strength":Vector(1,0)}
-    def __init__(self, strength=None):
-        super(RightPushForce, self).__init__()
         self.strength=strength
     def update(self, args):
         for spr in args["updated"].sprites():

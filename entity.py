@@ -31,10 +31,7 @@ class MoveGoal(object):
     def __init__(self, target):
         self.target=target
     def update_obj(self, e, args):
-        if e.x!=self.target.x:
-            Walk.run(e, self.target)
-        if e.y<self.target.y:
-            Jump.run(e)
+        pass
     def satisfied(self, e):
         return (e.pos-self.target).magnitude<5
 ai_dict={"basic/nothing":DoNothingAI, "test/geojumper":GeoJumperAI, "basic/playerai":PlayerAI}

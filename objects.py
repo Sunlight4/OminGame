@@ -19,6 +19,13 @@ class Object(pygame.sprite.Sprite): # Base class
         self.mass=mass
         self.path=image
     def update(self, args):
+        camera=args["camera"]
+        if (camera.x>self.pos.x) or (camera.x+640<self.pos.x) or (camera.y>self.pos.y) or (camera.y+480<self.pos.y):
+            self.status=self.groups()
+            self.kill()
+            args["limbo"].add(self)
+            return
+            
         "Check our forces, and change velocity accordingly, then change our position"
         super(Object, self).update()
         self.grounded=None
@@ -29,12 +36,23 @@ class Object(pygame.sprite.Sprite): # Base class
             self.velocity+=vel_change
             self.pos+=self.velocity
         self.forces=[]
-        self.rect.left=self.pos.x-(self.rect.width/2.0)
-        self.rect.top=self.pos.y-(self.rect.height/2.0)
+        self.rect.left=self.pos.x-(self.rect.width/2.0)-args["camera"].x
+        self.rect.top=self.pos.y-(self.rect.height/2.0)-args["camera"].y
     def addforce(self, v):
         self.forces.append(v)
     def _x(self):return self.pos.x
+    def draw(self, canvas, camera):
+        x=self.pos.x-camera.x
+        y=self.pos.y-camera.y
+        canvas.blit(self.image, [x, y])
     def _y(self):return self.pos.y
+    def limbo_check(self, args):
+        camera=args["camera"]
+        if (camera.x<self.pos.x) and (camera.x+640>self.pos.x) and (camera.y<self.pos.y) and (camera.y+480>self.pos.y):
+            self.kill()
+            for g in self.status:
+                g.add(self)
+            return
     x=property(_x)
     y=property(_y)
 class AnimatedObject(Object): # Animated object!
@@ -74,8 +92,8 @@ class AnimatedObject(Object): # Animated object!
             self.velocity+=vel_change
             self.pos+=self.velocity
         self.forces=[]
-        self.rect.left=self.pos.x-(self.rect.width/2.0)
-        self.rect.top=self.pos.y-(self.rect.height/2.0)
+        self.rect.left=self.pos.x-(self.rect.width/2.0)-args["camera"].x
+        self.rect.top=self.pos.y-(self.rect.height/2.0)-args["camera"].y
     def getImage(self):
         return pygame.image.load(self.frames[self.frame])
     

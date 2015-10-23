@@ -135,7 +135,10 @@ while run:
         if event.type==pygame.QUIT:
             run=0
         elif event.type==pygame.MOUSEBUTTONDOWN:
-            tool(*pygame.mouse.get_pos())
+            x, y = pygame.mouse.get_pos()
+            x+=sc.camera.x
+            y+=sc.camera.y
+            tool(x, y)
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_l:
                 path="level/"+enterbox(screen, "Enter level path to load:")+".txt"
@@ -220,6 +223,14 @@ while run:
                 else:
                     img="res/sprites/"+enterbox(screen, "Enter image path to load:")+".png"
                     tool=make_tool_create(kind, img)
+            elif event.key==pygame.K_RIGHT:
+                sc.camera.x+=24
+            elif event.key==pygame.K_LEFT:
+                sc.camera.x-=24
+            elif event.key==pygame.K_UP:
+                sc.camera.y-=24
+            elif event.key==pygame.K_DOWN:
+                sc.camera.y+=24
 
                 
     screen.fill(bgcolor)

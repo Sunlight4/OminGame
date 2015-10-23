@@ -18,13 +18,13 @@ class Jump(Move):
         e.addforce(normal*mN)
 class Walk(Move):
     @staticmethod
-    def run(e, target):
+    def run(e, direction):
         if e.grounded==None:return
         if e.energy<1:return
         else:e.energy-=1
         angle=math.degrees((e.pos-e.grounded.pos).direction)
         normal=e.grounded.normal((angle) % 360)
-        if target.x<e.x:
+        if direction==-1:
             v=Vector(normal.y, -normal.x)*100
         else:
             v=Vector(-normal.y, normal.x)*100

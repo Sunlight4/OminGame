@@ -2,7 +2,7 @@ import pygame
 from objects import *
 from vector import Vector
 class Scene(object):
-    
+    camera=Vector(0,0)
     def __init__(self, path):
         print "Loading level: "+path
         self.music = None
@@ -16,6 +16,7 @@ class Scene(object):
         self.updated.name="updated"
         self.forces=pygame.sprite.Group()
         self.forces.name="forces"
+        self.limbo=pygame.sprite.Group()
         for line in f:
             if line.startswith("//"):continue
             if line.startswith('.'):
@@ -61,15 +62,19 @@ class Scene(object):
             pygame.mixer.music.load(self.music)
             pygame.mixer.music.play(-1)
     def update(self, events):
+        camera=self.camera
         rendered=self.rendered
         updated=self.updated
-        self.forces.update({"events":events, "rendered":rendered, "updated":updated})
-        self.updated.update({"events":events, "rendered":rendered, "updated":updated})
+        for l in self.limbo.sprites():
+            l.limbo_check({"events":events, "rendered":rendered, "updated":updated, "camera":camera, "limbo":self.limbo})
+        self.forces.update({"events":events, "rendered":rendered, "updated":updated, "camera":camera, "limbo":self.limbo})
+        self.updated.update({"events":events, "rendered":rendered, "updated":updated, "camera":camera, "limbo":self.limbo})
     def draw(self, canvas):
         canvas.fill(self.rgb_bg)
         if not self.bg == None:
             canvas.blit(self.bg,[0,0])
-        self.rendered.draw(canvas)
+        for i in self.rendered.sprites():
+            i.draw(canvas, self.camera)
 
 def blitcenter(surf,pos,screen): # Blit pygame.Surface with center anchor
     screen.blit(surf,[pos[0]-surf.get_size()[0]/2,pos[1]-surf.get_size()[1]/2])

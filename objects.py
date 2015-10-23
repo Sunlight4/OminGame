@@ -21,7 +21,7 @@ class Object(pygame.sprite.Sprite): # Base class
     def update(self, args):
         "Check our forces, and change velocity accordingly, then change our position"
         super(Object, self).update()
-        grounded=None
+        self.grounded=None
         if not self.fixed:
             total_force=Vector(0,0)
             for f in self.forces:total_force+=f

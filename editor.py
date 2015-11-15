@@ -124,7 +124,7 @@ def tool_edit(x,y):
 
             exec "o."+attr+"=value"
 tool=tool_donothing
-#pygame.mixer.music.load("res/music/LevelEditorBGM.ogg")
+#pygame.mixer.music.load("res/music/LevelEditorTest.mp3")
 #pygame.mixer.music.set_volume(1)
 #pygame.mixer.music.play(-1)
 while run:

@@ -1,17 +1,33 @@
-import pygame, math, os
+import pygame, math, os, random
 from vector import Vector
 
-class Object(pygame.sprite.Sprite): # Base class
+class Atomic(pygame.sprite.Sprite):
+    def __init__(self, x, y, image):
+        self.image=pygame.image.load(image)
+        self.rect=self.image.get_rect()
+        self.rect.left=x
+        self.rect.top=y
+        super(Atomic, self).__init__()
+    def remove(self):
+        self.kill()
+    def moveto(self, x, y, camera):
+        self.rect.left=x-(self.rect.width/2.0)-camera.x
+        self.rect.top=y-(self.rect.height/2.0)-camera.y
+    def limbo(self, limbo):
+        self.status=self.groups()
+        self.remove()
+        limbo.add(self)
+    def unlimbo(self):
+        self.remove()
+        for g in self.status:
+            g.add(self)
+class Object(Atomic): # Base class
     props={"x":"int", "y":"int", "image":"image", "mass":"int", "fixed":"bool"}
     defs={"x":0, "y":0, "image":"Wall.png", "mass":50, "fixed":False}
     grounded=None
     def __init__(self, x=0, y=0, image="Wall.png", mass=50, fixed=False, *args):
         "Create an object with specified x, y, image, and mass. Calculate rect and mask for later, and make pos and velocity vectors"
-        super(Object, self).__init__(*args)
-        self.image=pygame.image.load(image)
-        self.rect=self.image.get_rect()
-        self.rect.left=x
-        self.rect.top=y
+        super(Object, self).__init__(x, y, image, *args)
         self.forces=[]
         self.fixed=fixed
         self.velocity=Vector(0,0)
@@ -21,9 +37,7 @@ class Object(pygame.sprite.Sprite): # Base class
     def update(self, args):
         camera=args["camera"]
         if (camera.x>self.pos.x) or (camera.x+640<self.pos.x) or (camera.y>self.pos.y) or (camera.y+480<self.pos.y):
-            self.status=self.groups()
-            self.kill()
-            args["limbo"].add(self)
+            self.limbo(args["limbo"])
             return
             
         "Check our forces, and change velocity accordingly, then change our position"
@@ -36,8 +50,7 @@ class Object(pygame.sprite.Sprite): # Base class
             self.velocity+=vel_change
             self.pos+=self.velocity
         self.forces=[]
-        self.rect.left=self.pos.x-(self.rect.width/2.0)-args["camera"].x
-        self.rect.top=self.pos.y-(self.rect.height/2.0)-args["camera"].y
+        self.moveto(self.pos.x, self.pos.y, args["camera"])
     def addforce(self, v):
         self.forces.append(v)
     def _x(self):return self.pos.x
@@ -49,9 +62,8 @@ class Object(pygame.sprite.Sprite): # Base class
     def limbo_check(self, args):
         camera=args["camera"]
         if (camera.x<self.pos.x) and (camera.x+640>self.pos.x) and (camera.y<self.pos.y) and (camera.y+480>self.pos.y):
-            self.kill()
-            for g in self.status:
-                g.add(self)
+            self.remove()
+            self.unlimbo()
             return
     x=property(_x)
     y=property(_y)
@@ -92,7 +104,7 @@ class AnimatedObject(Object): # Animated object!
             self.velocity+=vel_change
             self.pos+=self.velocity
         self.forces=[]
-        self.rect.left=self.pos.x-(self.rect.width/2.0)-args["camera"].x
+        
         self.rect.top=self.pos.y-(self.rect.height/2.0)-args["camera"].y
     def getImage(self):
         return pygame.image.load(self.frames[self.frame])
@@ -127,12 +139,12 @@ class Wall(Object):
                 spr.pos+=normal
                 
                 
-                spr.rect.left=spr.pos.x-(self.rect.width/2.0)
-                spr.rect.top=spr.pos.y-(self.rect.height/2.0)
+                spr.moveto(spr.pos.x, spr.pos.y, args["camera"])
             
             spr.grounded=self
             #TODO:fix this
-            
+        super(Object, self).update(args)
+
     def normal(self, angle):
         "Default normal function: simply return up vector"
         return Vector(0, -1)

@@ -14,7 +14,7 @@ class Jump(Move):
         angle=math.degrees((e.pos-e.grounded.pos).direction)
         normal=e.grounded.normal((angle) % 360)
         a=(-normal).angle(e.velocity)
-        mN = math.cos(a) * e.velocity.magnitude * e.grounded.bouncy * 10 * 50
+        mN = math.cos(a) * e.velocity.magnitude * e.grounded.bouncy * 10 * 100
         e.addforce(normal*mN)
 class Walk(Move):
     @staticmethod
